@@ -6,5 +6,6 @@ module.exports = {
     path: __dirname + '/dist',
     filename: 'bundle.js'
   },
-  plugins: [new HtmlWebpackPlugin()]
+  plugins: [new HtmlWebpackPlugin()],
+  devtool: 'source-map'
 };
