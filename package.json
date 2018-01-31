@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/alessandrocuzzocrea/chip-8-emulator-js/issues"
   },
-  "homepage": "https://github.com/alessandrocuzzocrea/chip-8-emulator-js#readme"
+  "homepage": "https://github.com/alessandrocuzzocrea/chip-8-emulator-js#readme",
+  "dependencies": {
+    "webpack": "^3.10.0"
+  }
 }
