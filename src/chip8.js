@@ -39,8 +39,14 @@ function loadCharset(chip8) {
   return chip8;
 }
 
+function cls(chip8) {
+  chip8.display = Array(64 * 32).fill(0);
+  return chip8;
+}
+
 module.exports = {
   Chip8: Chip8,
   reset: cloneDecorator(reset),
-  loadCharset: cloneDecorator(loadCharset)
+  loadCharset: cloneDecorator(loadCharset),
+  cls: cloneDecorator(cls)
 };

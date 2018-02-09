@@ -67,4 +67,20 @@ describe("Chip8", () => {
       }
     });
   });
+
+  describe("opcodes", () => {
+    it("CLS - 00E0", () => {
+      const initState = chip.reset(new chip.Chip8());
+
+      const newChip = new chip.Chip8();
+      newChip.display = Array(64 * 32).fill(1); //video ram
+
+      expect(newChip.display).not.toEqual(initState.display);
+
+      const afterCls = chip.cls(newChip);
+
+      expect(afterCls.display).not.toEqual(newChip.display);
+      expect(afterCls.display).toEqual(initState.display);
+    });
+  });
 });
