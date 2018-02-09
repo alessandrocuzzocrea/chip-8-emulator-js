@@ -7,6 +7,7 @@ function Chip8() {
   this.i = null; //16bit register
   this.pc = null;
   this.sp = null;
+  this.display = null;
   this.delayTimer = null;
   this.soundTimer = null;
 }
@@ -25,6 +26,7 @@ function reset(chip8) {
   chip8.i = 0; //16bit register
   chip8.pc = 0x200;
   chip8.sp = 0x0;
+  chip8.display = Array(64 * 32).fill(0); //video ram
   chip8.delayTimer = 0;
   chip8.soundTimer = 0;
   return chip8;
