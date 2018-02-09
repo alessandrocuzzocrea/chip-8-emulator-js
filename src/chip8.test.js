@@ -1,3 +1,4 @@
+const consts = require("./consts");
 const chip = require("./chip8");
 
 describe("Chip8", () => {
@@ -42,10 +43,22 @@ describe("Chip8", () => {
   });
 
   describe("loadCharset", () => {
-    it("load the charset", () => {
-      let chip8 = new chip.Chip8();
-      chip8 = chip.reset(chip8);
-      chip8 = chip.loadCharset(chip8);
+    let newState = new chip.Chip8();
+    afterResetState = chip.reset(newState);
+    afterLoadCharsetState = chip.loadCharset(afterResetState);
+
+    it("loads the charset starting from address 0x000", () => {
+      for (let i = 0x000; i < 0x050; i++) {
+        expect(afterLoadCharsetState.memory[i]).toEqual(consts.charset[i]);
+      }
+    });
+
+    it("should not change the memory after address 0x1ff", () => {
+      for (let i = 0x050; i <= 0xfff; i++) {
+        expect(afterLoadCharsetState.memory[i]).toEqual(
+          afterResetState.memory[i]
+        );
+      }
     });
   });
 });
