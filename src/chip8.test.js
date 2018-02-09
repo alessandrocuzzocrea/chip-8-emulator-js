@@ -1,7 +1,7 @@
 const chip = require("./chip8");
 
-describe('Initialization', () => {
-  it('has all his members initialized to null', () => {
+describe("Initialization", () => {
+  it("has all his members initialized to null", () => {
     const chip8 = new chip.Chip8();
     expect(chip8.i).toEqual(null);
     expect(chip8.memory).toEqual(null);
@@ -13,7 +13,7 @@ describe('Initialization', () => {
     expect(chip8.soundTimer).toEqual(null);
   });
 
-  it('is correctly initialized after reset', () => {
+  it("is correctly initialized after reset", () => {
     let chip8 = new chip.Chip8();
     chip8 = chip.reset(chip8);
 
