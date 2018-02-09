@@ -10,7 +10,7 @@ describe("Chip8", () => {
       expect(chip8.v).toEqual(null);
       expect(chip8.i).toEqual(null);
       expect(chip8.pc).toEqual(null);
-      expect(chip8.sp).toEqual(null);
+      expect(chip8.stack).toEqual(null);
       expect(chip8.display).toEqual(null);
       expect(chip8.delayTimer).toEqual(null);
       expect(chip8.soundTimer).toEqual(null);
@@ -35,8 +35,12 @@ describe("Chip8", () => {
       //i register
       expect(chip8.i).toEqual(0);
 
+      //program counter
       expect(chip8.pc).toEqual(0x200);
-      expect(chip8.sp).toEqual(0x0);
+
+      //stack
+      expect(chip8.stack).toBeInstanceOf(Array);
+      expect(chip8.stack).toHaveLength(0);
 
       //display
       expect(chip8.display).toBeInstanceOf(Array);
