@@ -28,7 +28,7 @@ describe("Chip8", () => {
       expect(chip8.memory.reduce((acc, v) => acc + v)).toEqual(0);
 
       //v registers
-      expect(chip8.v).toBeInstanceOf(Array);
+      expect(chip8.v).toBeInstanceOf(Uint8Array);
       expect(chip8.v).toHaveLength(16);
       expect(chip8.v.reduce((acc, v) => acc + v)).toEqual(0);
 
@@ -146,7 +146,13 @@ describe("Chip8", () => {
       expect(afterLd.v[0]).not.toEqual(initState.v[0]);
     });
 
-    // 7xkk - ADD Vx, byte
+    it.skip("ADD Vx, byte - 7xkk ", () => {
+      const byte = 0x01;
+      const afterAdd = chip.add(initState, 0, byte);
+      expect(afterLd.v[0]).toEqual(byte);
+      expect(afterLd.v[0]).not.toEqual(initState.v[0]);
+    });
+
     // 8xy0 - LD Vx, Vy
     // 8xy1 - OR Vx, Vy
     // 8xy2 - AND Vx, Vy

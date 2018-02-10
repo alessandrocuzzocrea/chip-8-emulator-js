@@ -22,7 +22,7 @@ function cloneDecorator(fn) {
 
 function reset(chip8) {
   chip8.memory = Array(4096).fill(0);
-  chip8.v = Array(16).fill(0); //8bit registers
+  chip8.v = new Uint8Array(16); //8bit registers
   chip8.i = 0; //16bit register
   chip8.pc = 0x200;
   chip8.stack = [];
