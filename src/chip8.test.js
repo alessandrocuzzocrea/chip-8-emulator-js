@@ -76,7 +76,6 @@ describe("Chip8", () => {
     const initState = chip.reset(new chip.Chip8());
 
     it("CLS - 00E0", () => {
-
       const chip8 = { ...initState, display: Array(64 * 32).fill(1) };
       expect(chip8.display).not.toEqual(initState.display);
 
@@ -86,7 +85,7 @@ describe("Chip8", () => {
     });
 
     it("RET - 00EE", () => {
-      const chip8 = { ...initState, stack: [0x300] }
+      const chip8 = { ...initState, stack: [0x300] };
       expect(chip8.stack).toHaveLength(1);
 
       const afterRet = chip.ret(chip8);
@@ -96,7 +95,7 @@ describe("Chip8", () => {
     });
 
     it("JP Addr - 1nnn", () => {
-      const jmpAddr = 0x300
+      const jmpAddr = 0x300;
       expect(initState.pc).not.toEqual(jmpAddr);
       const afterJp = chip.jp(initState, jmpAddr);
       expect(afterJp.pc).toEqual(jmpAddr);

@@ -13,7 +13,7 @@ function Chip8() {
 }
 
 function cloneDecorator(fn) {
-  return function (chip8, ...args) {
+  return function(chip8, ...args) {
     const newChip8 = _.cloneDeep(chip8);
     fn.call(null, newChip8, ...args);
     return Object.freeze(newChip8);
@@ -60,5 +60,5 @@ module.exports = {
   loadCharset: cloneDecorator(loadCharset),
   cls: cloneDecorator(cls),
   ret: cloneDecorator(ret),
-  jp: cloneDecorator(jp),
+  jp: cloneDecorator(jp)
 };
