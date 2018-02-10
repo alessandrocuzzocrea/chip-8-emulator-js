@@ -133,20 +133,20 @@ describe("Chip8", () => {
       expect(afterSne1.pc).toEqual(initState.pc + 2);
 
       // prettier-ignore
-      const differentVY = {...initState, v: [0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,]}
+      const differentVY = {...initState, v: new Uint8Array([0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])}
 
       const afterSne2 = chip.seXY(differentVY, 0, 1);
       expect(afterSne2.pc).toEqual(initState.pc);
     });
 
-    it("LD Vx, byte - 6xkk ", () => {
+    it("LD Vx, byte - 6xkk", () => {
       const byte = 0x01;
       const afterLd = chip.ld(initState, 0, byte);
       expect(afterLd.v[0]).toEqual(byte);
       expect(afterLd.v[0]).not.toEqual(initState.v[0]);
     });
 
-    it("ADD Vx, byte - 7xkk ", () => {
+    it("ADD Vx, byte - 7xkk", () => {
       const byte = 0x01;
       const afterAdd = chip.add(initState, 0, byte);
 
@@ -154,7 +154,15 @@ describe("Chip8", () => {
       expect(afterAdd.v[0]).not.toEqual(initState.v[0]);
     });
 
-    // 8xy0 - LD Vx, Vy
+    it("LD Vx, Vy - 8xy0", () => {
+      // prettier-ignore
+      const chip8 = {...initState, v: new Uint8Array([0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])};
+      const afterLdXY = chip.ldXY(chip8, 0, 1);
+
+      expect(afterLdXY.v[0]).toEqual(afterLdXY.v[1]);
+      expect(afterLdXY.v[0]).not.toEqual(initState.v[0]);
+    });
+
     // 8xy1 - OR Vx, Vy
     // 8xy2 - AND Vx, Vy
     // 8xy3 - XOR Vx, Vy
