@@ -163,7 +163,14 @@ describe("Chip8", () => {
       expect(afterLdXY.v[0]).not.toEqual(initState.v[0]);
     });
 
-    // 8xy1 - OR Vx, Vy
+    it("OR Vx, Vy - 8xy1", () => {
+      // prettier-ignore
+      const chip8 = {...initState, v: new Uint8Array([0b01010101, 0b10101010, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])};
+      const afterOrXY = chip.orXY(chip8, 0, 1);
+
+      expect(afterOrXY.v[0]).toEqual(0b11111111);
+    });
+
     // 8xy2 - AND Vx, Vy
     // 8xy3 - XOR Vx, Vy
     // 8xy4 - ADD Vx, Vy

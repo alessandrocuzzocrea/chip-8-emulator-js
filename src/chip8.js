@@ -96,6 +96,11 @@ function ldXY(chip8, x, y) {
   return chip8;
 }
 
+function orXY(chip8, x, y) {
+  chip8.v[x] ^= chip8.v[y];
+  return chip8;
+}
+
 module.exports = {
   Chip8: Chip8,
   reset: cloneDecorator(reset),
@@ -109,5 +114,6 @@ module.exports = {
   seXY: cloneDecorator(seXY),
   ld: cloneDecorator(ld),
   add: cloneDecorator(add),
-  ldXY: cloneDecorator(ldXY)
+  ldXY: cloneDecorator(ldXY),
+  orXY: cloneDecorator(orXY)
 };
