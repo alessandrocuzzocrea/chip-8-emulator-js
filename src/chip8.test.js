@@ -314,7 +314,16 @@ describe("Chip8", () => {
       const afterOp = chip.ldI(initState, 0xff);
       expect(afterOp.i).toEqual(0xff);
     });
-    // Bnnn - JP V0, addr
+
+    it("JP V0, addr - Bnnn", () => {
+      // prettier-ignore
+      const chip8 = {...initState, v: new Uint8Array([0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])}
+      const jmpAddr = 0x300;
+      const afterOp = chip.jpV0(chip8, jmpAddr);
+
+      expect(afterOp.pc).toEqual(jmpAddr + 0x01);
+      expect(afterOp.pc).not.toEqual(initState.pc);
+    });
     // Cxkk - RND Vx, byte
     // Dxyn - DRW Vx, Vy, nibble
     // Ex9E - SKP Vx

@@ -158,6 +158,11 @@ function ldI(chip8, byte) {
   return chip8;
 }
 
+function jpV0(chip8, addr) {
+  chip8.pc = chip8.v[0] + addr;
+  return chip8;
+}
+
 module.exports = {
   Chip8: Chip8,
   reset: cloneDecorator(reset),
@@ -181,5 +186,6 @@ module.exports = {
   subnXY: cloneDecorator(subnXY),
   shlX: cloneDecorator(shlX),
   sneXY: cloneDecorator(sneXY),
-  ldI: cloneDecorator(ldI)
+  ldI: cloneDecorator(ldI),
+  jpV0: cloneDecorator(jpV0)
 };
