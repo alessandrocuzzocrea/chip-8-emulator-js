@@ -128,7 +128,17 @@ describe("Chip8", () => {
       expect(afterSne2.pc).toEqual(initState.pc + 2);
     });
 
-    // 5xy0 - SE Vx, Vy
+    it("SE Vx, Vy - 5xy0 - Skip next instruction if Vx = Vy", () => {
+      const afterSne1 = chip.seXY(initState, 0, 1);
+      expect(afterSne1.pc).toEqual(initState.pc + 2);
+
+      // prettier-ignore
+      const differentVY = {...initState, v: [0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,]}
+
+      const afterSne2 = chip.seXY(differentVY, 0, 1);
+      expect(afterSne2.pc).toEqual(initState.pc);
+    });
+
     // 6xkk - LD Vx, byte
     // 7xkk - ADD Vx, byte
     // 8xy0 - LD Vx, Vy

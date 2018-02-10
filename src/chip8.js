@@ -74,6 +74,13 @@ function sne(chip8, v, byte) {
   return chip8;
 }
 
+function seXY(chip8, x, y) {
+  if (chip8.v[x] === chip8.v[y]) {
+    chip8.pc = chip8.pc + 2;
+  }
+  return chip8;
+}
+
 module.exports = {
   Chip8: Chip8,
   reset: cloneDecorator(reset),
@@ -83,5 +90,6 @@ module.exports = {
   jp: cloneDecorator(jp),
   call: cloneDecorator(call),
   se: cloneDecorator(se),
-  sne: cloneDecorator(sne)
+  sne: cloneDecorator(sne),
+  seXY: cloneDecorator(seXY)
 };
