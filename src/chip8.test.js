@@ -100,5 +100,23 @@ describe("Chip8", () => {
       expect(initState.pc).not.toEqual(jmpAddr);
       expect(afterJp.pc).toEqual(jmpAddr);
     });
+
+    it("CALL Addr - 2nnn", () => {
+      const callAddr = 0x300;
+      const afterCall = chip.call(initState, callAddr);
+
+      expect(initState.pc).not.toEqual(callAddr);
+      expect(afterCall.stack).toHaveLength(initState.stack.length + 1);
+      expect(afterCall.stack[afterCall.stack.length - 1]).toEqual(initState.pc);
+      expect(afterCall.pc).toEqual(0x300);
+    });
+
+    it("SE Vx, byte - 3xkk - Skip next instruction if Vx = kk", () => {
+      const afterSe1 = chip.se(initState, 0, 0x00);
+      expect(afterSe1.pc).toEqual(initState.pc + 2);
+
+      const afterSe2 = chip.se(initState, 0, 0x01);
+      expect(afterSe2.pc).toEqual(initState.pc);
+    });
   });
 });

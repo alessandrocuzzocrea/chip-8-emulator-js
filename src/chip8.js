@@ -54,11 +54,26 @@ function jp(chip8, addr) {
   return chip8;
 }
 
+function call(chip8, addr) {
+  chip8.stack.push(chip8.pc);
+  chip8.pc = addr;
+  return chip8;
+}
+
+function se(chip8, v, byte) {
+  if (chip8.v[v] === byte) {
+    chip8.pc = chip8.pc + 2;
+  }
+  return chip8;
+}
+
 module.exports = {
   Chip8: Chip8,
   reset: cloneDecorator(reset),
   loadCharset: cloneDecorator(loadCharset),
   cls: cloneDecorator(cls),
   ret: cloneDecorator(ret),
-  jp: cloneDecorator(jp)
+  jp: cloneDecorator(jp),
+  call: cloneDecorator(call),
+  se: cloneDecorator(se)
 };
