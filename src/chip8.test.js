@@ -73,18 +73,33 @@ describe("Chip8", () => {
   });
 
   describe("opcodes", () => {
+    const initState = chip.reset(new chip.Chip8());
+
     it("CLS - 00E0", () => {
-      const initState = chip.reset(new chip.Chip8());
 
-      const newChip = new chip.Chip8();
-      newChip.display = Array(64 * 32).fill(1); //video ram
+      const chip8 = { ...initState, display: Array(64 * 32).fill(1) };
+      expect(chip8.display).not.toEqual(initState.display);
 
-      expect(newChip.display).not.toEqual(initState.display);
-
-      const afterCls = chip.cls(newChip);
-
-      expect(afterCls.display).not.toEqual(newChip.display);
+      const afterCls = chip.cls(chip8);
+      expect(afterCls.display).not.toEqual(chip8.display);
       expect(afterCls.display).toEqual(initState.display);
+    });
+
+    it("RET - 00EE", () => {
+      const chip8 = { ...initState, stack: [0x300] }
+      expect(chip8.stack).toHaveLength(1);
+
+      const afterRet = chip.ret(chip8);
+      expect(afterRet.pc).not.toEqual(initState.pc);
+      expect(afterRet.pc).toEqual(0x300);
+      expect(afterRet.stack).toHaveLength(0);
+    });
+
+    it("JP Addr - 1nnn", () => {
+      const jmpAddr = 0x300
+      expect(initState.pc).not.toEqual(jmpAddr);
+      const afterJp = chip.jp(initState, jmpAddr);
+      expect(afterJp.pc).toEqual(jmpAddr);
     });
   });
 });

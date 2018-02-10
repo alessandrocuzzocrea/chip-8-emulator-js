@@ -13,9 +13,9 @@ function Chip8() {
 }
 
 function cloneDecorator(fn) {
-  return function (chip8) {
+  return function (chip8, ...args) {
     const newChip8 = _.cloneDeep(chip8);
-    fn.call(null, newChip8, ...arguments);
+    fn.call(null, newChip8, ...args);
     return Object.freeze(newChip8);
   };
 }
@@ -44,9 +44,21 @@ function cls(chip8) {
   return chip8;
 }
 
+function ret(chip8) {
+  chip8.pc = chip8.stack.pop();
+  return chip8;
+}
+
+function jp(chip8, addr) {
+  chip8.pc = addr;
+  return chip8;
+}
+
 module.exports = {
   Chip8: Chip8,
   reset: cloneDecorator(reset),
   loadCharset: cloneDecorator(loadCharset),
-  cls: cloneDecorator(cls)
+  cls: cloneDecorator(cls),
+  ret: cloneDecorator(ret),
+  jp: cloneDecorator(jp),
 };
