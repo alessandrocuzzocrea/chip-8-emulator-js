@@ -146,6 +146,13 @@ function shlX(chip8, x) {
   return chip8;
 }
 
+function sneXY(chip8, x, y) {
+  if (chip8.v[x] !== chip8.v[y]) {
+    chip8.pc = chip8.pc + 2;
+  }
+  return chip8;
+}
+
 module.exports = {
   Chip8: Chip8,
   reset: cloneDecorator(reset),
@@ -167,5 +174,6 @@ module.exports = {
   subXY: cloneDecorator(subXY),
   shrX: cloneDecorator(shrX),
   subnXY: cloneDecorator(subnXY),
-  shlX: cloneDecorator(shlX)
+  shlX: cloneDecorator(shlX),
+  sneXY: cloneDecorator(sneXY)
 };
