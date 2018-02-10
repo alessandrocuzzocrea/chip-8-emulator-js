@@ -139,6 +139,13 @@ function subnXY(chip8, x, y) {
   return chip8;
 }
 
+function shlX(chip8, x) {
+  const vx = chip8.v[x];
+  chip8.v[0xf] = vx >> 7;
+  chip8.v[x] = vx << 1;
+  return chip8;
+}
+
 module.exports = {
   Chip8: Chip8,
   reset: cloneDecorator(reset),
@@ -159,5 +166,6 @@ module.exports = {
   addXY: cloneDecorator(addXY),
   subXY: cloneDecorator(subXY),
   shrX: cloneDecorator(shrX),
-  subnXY: cloneDecorator(subnXY)
+  subnXY: cloneDecorator(subnXY),
+  shlX: cloneDecorator(shlX)
 };

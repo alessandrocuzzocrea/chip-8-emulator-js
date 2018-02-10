@@ -280,7 +280,24 @@ describe("Chip8", () => {
       }
     });
 
-    // 8xyE - SHL Vx {, Vy}
+    it("SHL Vx {, Vy} - 8xyE", () => {
+      {
+        // prettier-ignore
+        const chip8 = {...initState, v: new Uint8Array([0b11111111, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])};
+        const afterOp = chip.shlX(chip8, 0);
+
+        expect(afterOp.v[0]).toEqual(0b11111110);
+        expect(afterOp.v[0xf]).toEqual(0x01);
+      }
+      {
+        // prettier-ignore
+        const chip8 = {...initState, v: new Uint8Array([0b01111111, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])};
+        const afterOp = chip.shlX(chip8, 0);
+
+        expect(afterOp.v[0]).toEqual(0b11111110);
+        expect(afterOp.v[0xf]).toEqual(0x00);
+      }
+    });
     // 9xy0 - SNE Vx, Vy
     // Annn - LD I, addr
     // Bnnn - JP V0, addr
