@@ -164,11 +164,18 @@ describe("Chip8", () => {
     });
 
     it("OR Vx, Vy - 8xy1", () => {
-      // prettier-ignore
-      const chip8 = {...initState, v: new Uint8Array([0b01010101, 0b10101010, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])};
-      const afterOrXY = chip.orXY(chip8, 0, 1);
-
-      expect(afterOrXY.v[0]).toEqual(0b11111111);
+      {
+        // prettier-ignore
+        const chip8 = {...initState, v: new Uint8Array([0b01010101, 0b10101010, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])};
+        const afterOrXY = chip.orXY(chip8, 0, 1);
+        expect(afterOrXY.v[0]).toEqual(0b11111111);
+      }
+      {
+        // prettier-ignore
+        const chip8 = {...initState, v: new Uint8Array([0b01010101, 0b11111111, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])};
+        const afterOrXY = chip.orXY(chip8, 0, 1);
+        expect(afterOrXY.v[0]).toEqual(0b11111111);
+      }
     });
 
     it("AND Vx, Vy - 8xy2", () => {

@@ -97,7 +97,7 @@ function ldXY(chip8, x, y) {
 }
 
 function orXY(chip8, x, y) {
-  chip8.v[x] ^= chip8.v[y];
+  chip8.v[x] |= chip8.v[y];
   return chip8;
 }
 
