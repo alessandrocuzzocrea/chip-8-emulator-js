@@ -186,7 +186,23 @@ describe("Chip8", () => {
       expect(afterAndXY.v[0]).toEqual(0b00000000);
     });
 
-    // 8xy3 - XOR Vx, Vy
+    it("XOR Vx, Vy - 8xy3", () => {
+      {
+        // prettier-ignore
+        const chip8 = {...initState, v: new Uint8Array([0b01010101, 0b10101010, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])};
+        const afterXorXY = chip.xorXY(chip8, 0, 1);
+
+        expect(afterXorXY.v[0]).toEqual(0b11111111);
+      }
+      {
+        // prettier-ignore
+        const chip8 = {...initState, v: new Uint8Array([0b01010101, 0b10101011, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])};
+        const afterXorXY = chip.xorXY(chip8, 0, 1);
+
+        expect(afterXorXY.v[0]).toEqual(0b11111110);
+      }
+    });
+
     // 8xy4 - ADD Vx, Vy
     // 8xy5 - SUB Vx, Vy
     // 8xy6 - SHR Vx {, Vy}
