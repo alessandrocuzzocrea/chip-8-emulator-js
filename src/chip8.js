@@ -153,6 +153,11 @@ function sneXY(chip8, x, y) {
   return chip8;
 }
 
+function ldI(chip8, byte) {
+  chip8.i = byte;
+  return chip8;
+}
+
 module.exports = {
   Chip8: Chip8,
   reset: cloneDecorator(reset),
@@ -175,5 +180,6 @@ module.exports = {
   shrX: cloneDecorator(shrX),
   subnXY: cloneDecorator(subnXY),
   shlX: cloneDecorator(shlX),
-  sneXY: cloneDecorator(sneXY)
+  sneXY: cloneDecorator(sneXY),
+  ldI: cloneDecorator(ldI)
 };

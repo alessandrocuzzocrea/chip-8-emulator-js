@@ -300,16 +300,20 @@ describe("Chip8", () => {
     });
 
     it("SNE Vx, Vy - 9xy0 - Skip next instruction if Vx != Vy", () => {
-      const afterSne1 = chip.sneXY(initState, 0, 1);
-      expect(afterSne1.pc).toEqual(initState.pc);
+      const afterOp1 = chip.sneXY(initState, 0, 1);
+      expect(afterOp1.pc).toEqual(initState.pc);
 
       // prettier-ignore
       const differentVY = {...initState, v: new Uint8Array([0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])}
 
-      const afterSne2 = chip.sneXY(differentVY, 0, 1);
-      expect(afterSne2.pc).toEqual(initState.pc + 2);
+      const afterOp2 = chip.sneXY(differentVY, 0, 1);
+      expect(afterOp2.pc).toEqual(initState.pc + 2);
     });
-    // Annn - LD I, addr
+
+    it("LD I, addr - Annn", () => {
+      const afterOp = chip.ldI(initState, 0xff);
+      expect(afterOp.i).toEqual(0xff);
+    });
     // Bnnn - JP V0, addr
     // Cxkk - RND Vx, byte
     // Dxyn - DRW Vx, Vy, nibble
