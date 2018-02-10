@@ -11,3 +11,4 @@ The MIT License (MIT). Copyright (c) 2018 Alessandro Cuzzocrea
 * http://www.badlogicgames.com/wordpress/?p=3564
 * http://www.multigesture.net/articles/how-to-write-an-emulator-chip-8-interpreter/
 * http://blog.alexanderdickson.com/javascript-chip-8-emulator
+* https://massung.github.io/CHIP-8/
