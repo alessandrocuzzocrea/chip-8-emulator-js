@@ -1,4 +1,4 @@
-# chip-8-emulator-js
+# chip-8-emulator-js<br/> [![Build Status](https://travis-ci.org/alessandrocuzzocrea/chip-8-emulator-js.svg?branch=master)](https://travis-ci.org/alessandrocuzzocrea/chip-8-emulator-js) [![CircleCI Status](https://circleci.com/gh/alessandrocuzzocrea/chip-8-emulator-js.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/alessandrocuzzocrea/chip-8-emulator-js) [![Coverage Status](https://coveralls.io/repos/github/alessandrocuzzocrea/chip-8-emulator-js/badge.svg?branch=master)](https://coveralls.io/github/alessandrocuzzocrea/chip-8-emulator-js?branch=master) [![Maintainability](https://api.codeclimate.com/v1/badges/949370a8069037087fd2/maintainability)](https://codeclimate.com/github/alessandrocuzzocrea/chip-8-emulator-js/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/949370a8069037087fd2/test_coverage)](https://codeclimate.com/github/alessandrocuzzocrea/chip-8-emulator-js/test_coverage)
 
 ## License
 
