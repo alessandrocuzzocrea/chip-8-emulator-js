@@ -163,6 +163,11 @@ function jpV0(chip8, addr) {
   return chip8;
 }
 
+function rnd(chip8, x, byte) {
+  chip8.v[x] = Math.floor(Math.random() * 256) + byte;
+  return chip8;
+}
+
 module.exports = {
   Chip8: Chip8,
   reset: cloneDecorator(reset),
@@ -187,5 +192,6 @@ module.exports = {
   shlX: cloneDecorator(shlX),
   sneXY: cloneDecorator(sneXY),
   ldI: cloneDecorator(ldI),
-  jpV0: cloneDecorator(jpV0)
+  jpV0: cloneDecorator(jpV0),
+  rnd: cloneDecorator(rnd)
 };

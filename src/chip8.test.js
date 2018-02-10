@@ -324,7 +324,14 @@ describe("Chip8", () => {
       expect(afterOp.pc).toEqual(jmpAddr + 0x01);
       expect(afterOp.pc).not.toEqual(initState.pc);
     });
-    // Cxkk - RND Vx, byte
+
+    it("RND Vx, byte - Cxkk", () => {
+      const rndMock = jest.spyOn(Math, "random").mockReturnValue(0.5);
+      const afterOp = chip.rnd(initState, 0, 0x01);
+
+      expect(afterOp.v[0]).toEqual(0x81);
+    });
+
     // Dxyn - DRW Vx, Vy, nibble
     // Ex9E - SKP Vx
     // ExA1 - SKNP Vx
