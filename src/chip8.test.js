@@ -139,7 +139,13 @@ describe("Chip8", () => {
       expect(afterSne2.pc).toEqual(initState.pc);
     });
 
-    // 6xkk - LD Vx, byte
+    it("LD Vx, byte - 6xkk ", () => {
+      const byte = 0x01;
+      const afterLd = chip.ld(initState, 0, byte);
+      expect(afterLd.v[0]).toEqual(byte);
+      expect(afterLd.v[0]).not.toEqual(initState.v[0]);
+    });
+
     // 7xkk - ADD Vx, byte
     // 8xy0 - LD Vx, Vy
     // 8xy1 - OR Vx, Vy
