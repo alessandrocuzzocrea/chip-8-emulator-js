@@ -118,6 +118,13 @@ function addXY(chip8, x, y) {
   return chip8;
 }
 
+function subXY(chip8, x, y) {
+  const difference = chip8.v[x] - chip8.v[y];
+  chip8.v[0xf] = chip8.v[x] > chip8.v[y] ? 0x01 : 0x00;
+  chip8.v[x] = difference;
+  return chip8;
+}
+
 module.exports = {
   Chip8: Chip8,
   reset: cloneDecorator(reset),
@@ -135,5 +142,6 @@ module.exports = {
   orXY: cloneDecorator(orXY),
   andXY: cloneDecorator(andXY),
   xorXY: cloneDecorator(xorXY),
-  addXY: cloneDecorator(addXY)
+  addXY: cloneDecorator(addXY),
+  subXY: cloneDecorator(subXY)
 };

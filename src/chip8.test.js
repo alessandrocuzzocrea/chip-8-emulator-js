@@ -222,6 +222,25 @@ describe("Chip8", () => {
       }
     });
 
+    it("SUB Vx, Vy - 8xy5", () => {
+      {
+        // prettier-ignore
+        const chip8 = {...initState, v: new Uint8Array([0x02, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])};
+        const afterSubXY = chip.subXY(chip8, 0, 1);
+
+        expect(afterSubXY.v[0]).toEqual(0x01);
+        expect(afterSubXY.v[0xf]).toEqual(0x01);
+      }
+      {
+        // prettier-ignore
+        const chip8 = {...initState, v: new Uint8Array([0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])};
+        const afterSubXY = chip.subXY(chip8, 0, 1);
+
+        expect(afterSubXY.v[0]).toEqual(0xff);
+        expect(afterSubXY.v[0xf]).toEqual(0x00);
+      }
+    });
+
     // 8xy6 - SHR Vx {, Vy}
     // 8xy7 - SUBN Vx, Vy
     // 8xyE - SHL Vx {, Vy}
