@@ -168,6 +168,10 @@ function rnd(chip8, x, byte) {
   return chip8;
 }
 
+function drw(chip8, x, y, byte) {
+  throw Error("not implemented");
+}
+
 module.exports = {
   Chip8: Chip8,
   reset: cloneDecorator(reset),
