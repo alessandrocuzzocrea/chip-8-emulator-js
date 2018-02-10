@@ -111,6 +111,13 @@ function xorXY(chip8, x, y) {
   return chip8;
 }
 
+function addXY(chip8, x, y) {
+  const sum = chip8.v[x] + chip8.v[y];
+  chip8.v[0xf] = sum > 0xff ? 0x01 : 0x00;
+  chip8.v[x] = sum;
+  return chip8;
+}
+
 module.exports = {
   Chip8: Chip8,
   reset: cloneDecorator(reset),
@@ -127,5 +134,6 @@ module.exports = {
   ldXY: cloneDecorator(ldXY),
   orXY: cloneDecorator(orXY),
   andXY: cloneDecorator(andXY),
-  xorXY: cloneDecorator(xorXY)
+  xorXY: cloneDecorator(xorXY),
+  addXY: cloneDecorator(addXY)
 };
