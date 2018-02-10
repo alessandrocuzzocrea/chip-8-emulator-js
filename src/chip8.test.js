@@ -5,6 +5,7 @@ describe("Chip8", () => {
   describe("new Chip8", () => {
     it("has all his members initialized to null", () => {
       const chip8 = new chip.Chip8();
+
       expect(chip8.i).toEqual(null);
       expect(chip8.memory).toEqual(null);
       expect(chip8.v).toEqual(null);
@@ -19,8 +20,7 @@ describe("Chip8", () => {
 
   describe("reset", () => {
     it("is correctly initialized after reset", () => {
-      let chip8 = new chip.Chip8();
-      chip8 = chip.reset(chip8);
+      const chip8 = chip.reset(new chip.Chip8());
 
       //Memory
       expect(chip8.memory).toBeInstanceOf(Array);
@@ -53,8 +53,7 @@ describe("Chip8", () => {
   });
 
   describe("loadCharset", () => {
-    let newState = new chip.Chip8();
-    afterResetState = chip.reset(newState);
+    afterResetState = chip.reset(new chip.Chip8());
     afterLoadCharsetState = chip.loadCharset(afterResetState);
 
     it("loads the charset starting from address 0x000", () => {
@@ -77,18 +76,18 @@ describe("Chip8", () => {
 
     it("CLS - 00E0", () => {
       const chip8 = { ...initState, display: Array(64 * 32).fill(1) };
-      expect(chip8.display).not.toEqual(initState.display);
-
       const afterCls = chip.cls(chip8);
+
+      expect(chip8.display).not.toEqual(initState.display);
       expect(afterCls.display).not.toEqual(chip8.display);
       expect(afterCls.display).toEqual(initState.display);
     });
 
     it("RET - 00EE", () => {
       const chip8 = { ...initState, stack: [0x300] };
-      expect(chip8.stack).toHaveLength(1);
-
       const afterRet = chip.ret(chip8);
+
+      expect(chip8.stack).toHaveLength(1);
       expect(afterRet.pc).not.toEqual(initState.pc);
       expect(afterRet.pc).toEqual(0x300);
       expect(afterRet.stack).toHaveLength(0);
@@ -96,8 +95,9 @@ describe("Chip8", () => {
 
     it("JP Addr - 1nnn", () => {
       const jmpAddr = 0x300;
-      expect(initState.pc).not.toEqual(jmpAddr);
       const afterJp = chip.jp(initState, jmpAddr);
+
+      expect(initState.pc).not.toEqual(jmpAddr);
       expect(afterJp.pc).toEqual(jmpAddr);
     });
   });
