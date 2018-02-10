@@ -67,6 +67,13 @@ function se(chip8, v, byte) {
   return chip8;
 }
 
+function sne(chip8, v, byte) {
+  if (chip8.v[v] !== byte) {
+    chip8.pc = chip8.pc + 2;
+  }
+  return chip8;
+}
+
 module.exports = {
   Chip8: Chip8,
   reset: cloneDecorator(reset),
@@ -75,5 +82,6 @@ module.exports = {
   ret: cloneDecorator(ret),
   jp: cloneDecorator(jp),
   call: cloneDecorator(call),
-  se: cloneDecorator(se)
+  se: cloneDecorator(se),
+  sne: cloneDecorator(sne)
 };
