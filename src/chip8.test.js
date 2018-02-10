@@ -146,11 +146,12 @@ describe("Chip8", () => {
       expect(afterLd.v[0]).not.toEqual(initState.v[0]);
     });
 
-    it.skip("ADD Vx, byte - 7xkk ", () => {
+    it("ADD Vx, byte - 7xkk ", () => {
       const byte = 0x01;
       const afterAdd = chip.add(initState, 0, byte);
-      expect(afterLd.v[0]).toEqual(byte);
-      expect(afterLd.v[0]).not.toEqual(initState.v[0]);
+
+      expect(afterAdd.v[0]).toEqual(byte);
+      expect(afterAdd.v[0]).not.toEqual(initState.v[0]);
     });
 
     // 8xy0 - LD Vx, Vy

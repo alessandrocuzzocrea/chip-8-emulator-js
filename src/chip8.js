@@ -86,6 +86,11 @@ function ld(chip8, x, byte) {
   return chip8;
 }
 
+function add(chip8, x, byte) {
+  chip8.v[x] += byte;
+  return chip8;
+}
+
 module.exports = {
   Chip8: Chip8,
   reset: cloneDecorator(reset),
@@ -97,5 +102,6 @@ module.exports = {
   se: cloneDecorator(se),
   sne: cloneDecorator(sne),
   seXY: cloneDecorator(seXY),
-  ld: cloneDecorator(ld)
+  ld: cloneDecorator(ld),
+  add: cloneDecorator(add)
 };
