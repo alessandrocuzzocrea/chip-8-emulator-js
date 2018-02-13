@@ -1,4 +1,5 @@
 const consts = require("../src/consts");
+const h = require("../src/helpers");
 const chip = require("../src/chip8");
 
 describe("opcodes", () => {
@@ -263,7 +264,26 @@ describe("opcodes", () => {
     rndMock.mockRestore();
   });
 
-  // Dxyn - DRW Vx, Vy, nibble
+  describe("DRW Vx, Vy, nibble - Dxyn", () => {
+    it("should draw a pixel at coords 0 0", () => {
+      let chip8 = chip.setMemory(initState, 0x000, 0b10000000);
+      const W = 64;
+      chip8 = chip.drw(chip8, 0, 0, 1);
+
+      expect(chip8.display[h.to1D(0, 0, W)]).toEqual(1);
+      expect(chip8.display[h.to1D(1, 0, W)]).toEqual(0);
+      expect(chip8.display[h.to1D(2, 0, W)]).toEqual(0);
+      expect(chip8.display[h.to1D(3, 0, W)]).toEqual(0);
+      expect(chip8.display[h.to1D(4, 0, W)]).toEqual(0);
+      expect(chip8.display[h.to1D(5, 0, W)]).toEqual(0);
+      expect(chip8.display[h.to1D(6, 0, W)]).toEqual(0);
+      expect(chip8.display[h.to1D(7, 0, W)]).toEqual(0);
+
+      expect(chip8.display[h.to1D(0, 0, W)]).not.toEqual(
+        initState.display[h.to1D(0, 0, W)]
+      );
+    });
+  });
   // Ex9E - SKP Vx
   // ExA1 - SKNP Vx
   // Fx07 - LD Vx, DT

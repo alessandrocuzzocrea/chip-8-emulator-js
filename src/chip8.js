@@ -196,7 +196,20 @@ function rnd(chip8, x, byte) {
 }
 
 function drw(chip8, x, y, byte) {
-  throw Error("not implemented");
+  const xCoord = chip8.v[x];
+  const yCoord = chip8.v[y];
+  const i = chip8.i;
+
+  for (let y = 0; y < byte; y++) {
+    const line = chip8.memory[i + y];
+    for (let x = 0; x < 7; x++) {
+      const val = (line >> (7 - x)) & 0b00000001;
+      chip8.display[x + xCoord + (y + yCoord) * 64] = val;
+    }
+  }
+
+  chip8.pc = chip8.pc + 2;
+  return chip8;
 }
 
 module.exports = {
@@ -226,5 +239,6 @@ module.exports = {
   sneXY: cloneDecorator(sneXY),
   ldI: cloneDecorator(ldI),
   jpV0: cloneDecorator(jpV0),
-  rnd: cloneDecorator(rnd)
+  rnd: cloneDecorator(rnd),
+  drw: cloneDecorator(drw)
 };
