@@ -81,4 +81,15 @@ describe("Chip8", () => {
       expect(chip8.v[i]).not.toEqual(afterResetState);
     });
   });
+
+  describe("setMemory", () => {
+    it("sets memory[addr] to value v", () => {
+      const addr = 0x000;
+      const v = 0xff;
+      let chip8 = chip.setMemory(afterResetState, addr, v);
+
+      expect(chip8.memory[addr]).toEqual(v);
+      expect(chip8.memory[addr]).not.toEqual(afterResetState);
+    });
+  });
 });

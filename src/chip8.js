@@ -44,6 +44,11 @@ function setV(chip8, vi, val) {
   return chip8;
 }
 
+function setMemory(chip8, addr, val) {
+  chip8.memory[addr] = val;
+  return chip8;
+}
+
 function cls(chip8) {
   chip8.display = Array(64 * 32).fill(0);
   chip8.pc = chip8.pc + 2;
@@ -199,6 +204,7 @@ module.exports = {
   reset: cloneDecorator(reset),
   loadCharset: cloneDecorator(loadCharset),
   setV: cloneDecorator(setV),
+  setMemory: cloneDecorator(setMemory),
   cls: cloneDecorator(cls),
   ret: cloneDecorator(ret),
   jp: cloneDecorator(jp),
