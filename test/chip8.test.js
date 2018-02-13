@@ -1,5 +1,5 @@
-const consts = require("./consts");
-const chip = require("./chip8");
+const consts = require("../src/consts");
+const chip = require("../src/chip8");
 
 describe("Chip8", () => {
   describe("new Chip8", () => {
