@@ -260,6 +260,7 @@ describe("opcodes", () => {
     const afterOp = chip.rnd(initState, 0, 0x01);
 
     expect(afterOp.v[0]).toEqual(0x81);
+    rndMock.mockRestore();
   });
 
   // Dxyn - DRW Vx, Vy, nibble
