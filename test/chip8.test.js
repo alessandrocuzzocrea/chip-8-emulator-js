@@ -2,9 +2,13 @@ const consts = require("../src/consts");
 const chip = require("../src/chip8");
 
 describe("Chip8", () => {
+  const afterNewState = new chip.Chip8();
+  const afterResetState = chip.reset(afterNewState);
+  const afterLoadCharsetState = chip.loadCharset(afterResetState);
+
   describe("new Chip8", () => {
     it("has all his members initialized to null", () => {
-      const chip8 = new chip.Chip8();
+      const chip8 = afterNewState;
 
       expect(chip8.i).toEqual(null);
       expect(chip8.memory).toEqual(null);
@@ -20,7 +24,7 @@ describe("Chip8", () => {
 
   describe("reset", () => {
     it("is correctly initialized after reset", () => {
-      const chip8 = chip.reset(new chip.Chip8());
+      const chip8 = afterResetState;
 
       //Memory
       expect(chip8.memory).toBeInstanceOf(Array);
@@ -53,21 +57,28 @@ describe("Chip8", () => {
   });
 
   describe("loadCharset", () => {
-    afterResetState = chip.reset(new chip.Chip8());
-    afterLoadCharsetState = chip.loadCharset(afterResetState);
+    const chip8 = afterLoadCharsetState;
 
     it("loads the charset starting from address 0x000", () => {
       for (let i = 0x000; i < 0x050; i++) {
-        expect(afterLoadCharsetState.memory[i]).toEqual(consts.charset[i]);
+        expect(chip8.memory[i]).toEqual(consts.charset[i]);
       }
     });
 
     it("should not change the memory after address 0x1ff", () => {
       for (let i = 0x050; i <= 0xfff; i++) {
-        expect(afterLoadCharsetState.memory[i]).toEqual(
-          afterResetState.memory[i]
-        );
+        expect(afterLoadCharsetState.memory[i]).toEqual(chip8.memory[i]);
       }
+    });
+  });
+
+  describe("setV", () => {
+    it("sets v[i] register to value v", () => {
+      const i = 0;
+      const v = 0xff;
+      const chip8 = chip.setV(afterResetState, i, v);
+      expect(chip8.v[i]).toEqual(v);
+      expect(chip8.v[i]).not.toEqual(afterResetState);
     });
   });
 });

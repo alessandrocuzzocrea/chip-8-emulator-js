@@ -39,6 +39,11 @@ function loadCharset(chip8) {
   return chip8;
 }
 
+function setV(chip8, vi, val) {
+  chip8.v[vi] = val;
+  return chip8;
+}
+
 function cls(chip8) {
   chip8.display = Array(64 * 32).fill(0);
   chip8.pc = chip8.pc + 2;
@@ -193,6 +198,7 @@ module.exports = {
   Chip8: Chip8,
   reset: cloneDecorator(reset),
   loadCharset: cloneDecorator(loadCharset),
+  setV: cloneDecorator(setV),
   cls: cloneDecorator(cls),
   ret: cloneDecorator(ret),
   jp: cloneDecorator(jp),
