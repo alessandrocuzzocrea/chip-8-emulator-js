@@ -41,22 +41,26 @@ function loadCharset(chip8) {
 
 function cls(chip8) {
   chip8.display = Array(64 * 32).fill(0);
+  chip8.pc = chip8.pc + 2;
   return chip8;
 }
 
 function ret(chip8) {
   chip8.pc = chip8.stack.pop();
+  chip8.pc = chip8.pc + 0;
   return chip8;
 }
 
 function jp(chip8, addr) {
   chip8.pc = addr;
+  chip8.pc = chip8.pc + 0;
   return chip8;
 }
 
 function call(chip8, addr) {
   chip8.stack.push(chip8.pc);
   chip8.pc = addr;
+  chip8.pc = chip8.pc + 0;
   return chip8;
 }
 
@@ -83,31 +87,37 @@ function seXY(chip8, x, y) {
 
 function ld(chip8, x, byte) {
   chip8.v[x] = byte;
+  chip8.pc = chip8.pc + 2;
   return chip8;
 }
 
 function add(chip8, x, byte) {
   chip8.v[x] += byte;
+  chip8.pc = chip8.pc + 2;
   return chip8;
 }
 
 function ldXY(chip8, x, y) {
   chip8.v[x] = chip8.v[y];
+  chip8.pc = chip8.pc + 2;
   return chip8;
 }
 
 function orXY(chip8, x, y) {
   chip8.v[x] |= chip8.v[y];
+  chip8.pc = chip8.pc + 2;
   return chip8;
 }
 
 function andXY(chip8, x, y) {
   chip8.v[x] &= chip8.v[y];
+  chip8.pc = chip8.pc + 2;
   return chip8;
 }
 
 function xorXY(chip8, x, y) {
   chip8.v[x] ^= chip8.v[y];
+  chip8.pc = chip8.pc + 2;
   return chip8;
 }
 
@@ -115,6 +125,7 @@ function addXY(chip8, x, y) {
   const sum = chip8.v[x] + chip8.v[y];
   chip8.v[0xf] = sum > 0xff ? 0x01 : 0x00;
   chip8.v[x] = sum;
+  chip8.pc = chip8.pc + 2;
   return chip8;
 }
 
@@ -122,6 +133,7 @@ function subXY(chip8, x, y) {
   const difference = chip8.v[x] - chip8.v[y];
   chip8.v[0xf] = chip8.v[x] > chip8.v[y] ? 0x01 : 0x00;
   chip8.v[x] = difference;
+  chip8.pc = chip8.pc + 2;
   return chip8;
 }
 
@@ -129,6 +141,7 @@ function shrX(chip8, x) {
   const vx = chip8.v[x];
   chip8.v[0xf] = vx & 0b00000001;
   chip8.v[x] = vx >> 1;
+  chip8.pc = chip8.pc + 2;
   return chip8;
 }
 
@@ -136,6 +149,7 @@ function subnXY(chip8, x, y) {
   const difference = chip8.v[y] - chip8.v[x];
   chip8.v[0xf] = chip8.v[y] > chip8.v[x] ? 0x01 : 0x00;
   chip8.v[x] = difference;
+  chip8.pc = chip8.pc + 2;
   return chip8;
 }
 
@@ -143,6 +157,7 @@ function shlX(chip8, x) {
   const vx = chip8.v[x];
   chip8.v[0xf] = vx >> 7;
   chip8.v[x] = vx << 1;
+  chip8.pc = chip8.pc + 2;
   return chip8;
 }
 
@@ -155,6 +170,7 @@ function sneXY(chip8, x, y) {
 
 function ldI(chip8, byte) {
   chip8.i = byte;
+  chip8.pc = chip8.pc + 2;
   return chip8;
 }
 
@@ -165,6 +181,7 @@ function jpV0(chip8, addr) {
 
 function rnd(chip8, x, byte) {
   chip8.v[x] = Math.floor(Math.random() * 256) + byte;
+  chip8.pc = chip8.pc + 2;
   return chip8;
 }
 
