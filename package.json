@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server",
-    "test": "jest",
+    "test": "jest --watch",
+    "test:debug":
+      "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand",
     "coverage": "jest --coverage"
   },
   "repository": {
