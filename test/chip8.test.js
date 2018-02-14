@@ -92,4 +92,69 @@ describe("Chip8", () => {
       expect(chip8.memory[addr]).not.toEqual(afterResetState);
     });
   });
+
+  describe("decode", () => {
+    let spyCls, spyldI, spyLd, spyDrw, spyAdd;
+
+    beforeAll(() => {
+      spyCls = jest.spyOn(chip, "cls");
+      spyldI = jest.spyOn(chip, "ldI");
+      spyLd = jest.spyOn(chip, "ld");
+      spyDrw = jest.spyOn(chip, "drw");
+      spyAdd = jest.spyOn(chip, "add");
+      spyAdd = jest.spyOn(chip, "add");
+      jpSpy = jest.spyOn(chip, "jp");
+    });
+
+    afterEach(() => {
+      jest.resetAllMocks();
+    });
+
+    it("decode 00E0 correctly", () => {
+      chip.decode(afterResetState, 0x00e0);
+      expect(spyCls).toBeCalled();
+    });
+
+    it("decode 1nnn correctly", () => {
+      chip.decode(afterResetState, 0x1228);
+      expect(jpSpy).toBeCalled();
+    });
+
+    it("decode Annn correctly", () => {
+      chip.decode(afterResetState, 0xa22a);
+      expect(spyldI).toHaveBeenCalledWith(expect.any(chip.Chip8), 0x22a);
+
+      chip.decode(afterResetState, 0xa239);
+      expect(spyldI).toHaveBeenCalledWith(expect.any(chip.Chip8), 0x239);
+    });
+
+    it("decode 6xkk correctly", () => {
+      chip.decode(afterResetState, 0x600c);
+      expect(spyLd).toHaveBeenCalledWith(expect.any(chip.Chip8), 0x0, 0xc);
+
+      chip.decode(afterResetState, 0x6108);
+      expect(spyLd).toHaveBeenCalledWith(expect.any(chip.Chip8), 0x1, 0x8);
+    });
+
+    it("decode Dxyn correctly", () => {
+      chip.decode(afterResetState, 0xd01f);
+      expect(spyDrw).toHaveBeenCalledWith(
+        expect.any(chip.Chip8),
+        0x0,
+        0x1,
+        0xf
+      );
+    });
+
+    it("decode 7xkk correctly", () => {
+      chip.decode(afterResetState, 0x7009);
+      expect(spyAdd).toHaveBeenCalledWith(expect.any(chip.Chip8), 0x0, 0x9);
+    });
+
+    it("throws an exception if opcode is illegal", () => {
+      expect(() => chip.decode(afterResetState, 0x5001)).toThrowError(
+        "Illegal opcode"
+      );
+    });
+  });
 });

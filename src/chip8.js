@@ -212,12 +212,57 @@ function drw(chip8, x, y, byte) {
   return chip8;
 }
 
+function decode(chip, opcode) {
+  const a = (opcode & 0b1111000000000000) >> 12;
+  const b = (opcode & 0b0000111100000000) >> 8;
+  const c = (opcode & 0b0000000011110000) >> 4;
+  const d = (opcode & 0b0000000000001111) >> 0;
+
+  //0 Group
+  switch (a) {
+    case 0x0:
+      // 00E0 - CLS
+      if (b === 0x0 && c === 0xe && d === 0x0) {
+        return module.exports.cls(chip);
+      }
+    case 0x1: {
+      const nnn = (b << 8) + (c << 4) + d;
+      return module.exports.jp(chip, nnn);
+    }
+    case 0x6: {
+      // 6xkk - LD Vx, byte
+      const x = b;
+      const kk = (c << 4) + d;
+      return module.exports.ld(chip, b, kk);
+    }
+    case 0x7: {
+      // "7xkk - ADD Vx, byte"
+      const x = b;
+      const kk = (c << 4) + d;
+      return module.exports.add(chip, b, kk);
+    }
+    case 0xa: {
+      // "Annn - LD I, addr"
+      const nnn = (b << 8) + (c << 4) + d;
+      return module.exports.ldI(chip, nnn);
+    }
+    case 0xd:
+      // "Dxyn - DRW Vx, Vy, nibble"
+      return module.exports.drw(chip, b, c, d);
+    default:
+      break;
+  }
+
+  throw new Error("Illegal opcode");
+}
+
 module.exports = {
   Chip8: Chip8,
   reset: cloneDecorator(reset),
   loadCharset: cloneDecorator(loadCharset),
   setV: cloneDecorator(setV),
   setMemory: cloneDecorator(setMemory),
+  decode: cloneDecorator(decode),
   cls: cloneDecorator(cls),
   ret: cloneDecorator(ret),
   jp: cloneDecorator(jp),
