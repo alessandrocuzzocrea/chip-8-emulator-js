@@ -256,6 +256,12 @@ function decode(chip, opcode) {
   throw new Error("Illegal opcode");
 }
 
+function cycle(chip) {
+  const { pc, memory } = chip;
+  const opcode = (memory[pc] << 8) | memory[pc + 1];
+  return module.exports.decode(chip, opcode);
+}
+
 module.exports = {
   Chip8: Chip8,
   reset: cloneDecorator(reset),
@@ -263,6 +269,7 @@ module.exports = {
   setV: cloneDecorator(setV),
   setMemory: cloneDecorator(setMemory),
   decode: cloneDecorator(decode),
+  cycle: cloneDecorator(cycle),
   cls: cloneDecorator(cls),
   ret: cloneDecorator(ret),
   jp: cloneDecorator(jp),

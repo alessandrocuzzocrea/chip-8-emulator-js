@@ -157,4 +157,18 @@ describe("Chip8", () => {
       );
     });
   });
+
+  describe("cycle", () => {
+    it("calls decode with the correct opcode", () => {
+      decodeSpy = jest.spyOn(chip, "decode");
+
+      let chip8 = afterResetState;
+      const pc = chip8.pc;
+      chip8 = chip.setMemory(afterResetState, pc + 0x000, 0x12);
+      chip8 = chip.setMemory(chip8, pc + 0x001, 0x34);
+      chip8 = chip.cycle(chip8);
+
+      expect(decodeSpy).toHaveBeenCalledWith(expect.any(chip.Chip8), 0x1234);
+    });
+  });
 });
