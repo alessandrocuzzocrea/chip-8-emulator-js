@@ -269,7 +269,7 @@ module.exports = {
   setV: cloneDecorator(setV),
   setMemory: cloneDecorator(setMemory),
   decode: decode,
-  cycle: cloneDecorator(cycle),
+  cycle: cycle,
   cls: cloneDecorator(cls),
   ret: cloneDecorator(ret),
   jp: cloneDecorator(jp),
