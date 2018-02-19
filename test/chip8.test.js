@@ -171,4 +171,15 @@ describe("Chip8", () => {
       expect(decodeSpy).toHaveBeenCalledWith(expect.any(chip.Chip8), 0x1234);
     });
   });
+
+  describe("loadRom", () => {
+    it("loads the rom", () => {
+      const IBM = require("../fixtures/IBM");
+      const chip8 = chip.loadRom(afterResetState, IBM);
+
+      IBM.forEach((v, i) => {
+        expect(chip8.memory[i + 0x200]).toEqual(v);
+      });
+    });
+  });
 });

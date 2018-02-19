@@ -262,6 +262,13 @@ function cycle(chip) {
   return module.exports.decode(chip, opcode);
 }
 
+function loadRom(chip8, rom) {
+  for (let i = 0; i < rom.length; i++) {
+    chip8.memory[0x200 + i] = rom[i];
+  }
+  return chip8;
+}
+
 module.exports = {
   Chip8: Chip8,
   reset: cloneDecorator(reset),
@@ -270,6 +277,7 @@ module.exports = {
   setMemory: cloneDecorator(setMemory),
   decode: decode,
   cycle: cycle,
+  loadRom: cloneDecorator(loadRom),
   cls: cloneDecorator(cls),
   ret: cloneDecorator(ret),
   jp: cloneDecorator(jp),
