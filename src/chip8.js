@@ -202,7 +202,7 @@ function drw(chip8, x, y, byte) {
 
   for (let y = 0; y < byte; y++) {
     const line = chip8.memory[i + y];
-    for (let x = 0; x < 7; x++) {
+    for (let x = 0; x < 8; x++) {
       const val = (line >> (7 - x)) & 0b00000001;
       chip8.display[x + xCoord + (y + yCoord) * 64] = val;
     }

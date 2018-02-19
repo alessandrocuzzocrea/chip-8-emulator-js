@@ -283,6 +283,25 @@ describe("opcodes", () => {
         initState.display[h.to1D(0, 0, W)]
       );
     });
+
+    it("should draw a line starting at coords 0,0 ending at 0,7", () => {
+      let chip8 = chip.setMemory(initState, 0x000, 0b11111111);
+      const W = 64;
+      chip8 = chip.drw(chip8, 0, 0, 1);
+
+      expect(chip8.display[h.to1D(0, 0, W)]).toEqual(1);
+      expect(chip8.display[h.to1D(1, 0, W)]).toEqual(1);
+      expect(chip8.display[h.to1D(2, 0, W)]).toEqual(1);
+      expect(chip8.display[h.to1D(3, 0, W)]).toEqual(1);
+      expect(chip8.display[h.to1D(4, 0, W)]).toEqual(1);
+      expect(chip8.display[h.to1D(5, 0, W)]).toEqual(1);
+      expect(chip8.display[h.to1D(6, 0, W)]).toEqual(1);
+      expect(chip8.display[h.to1D(7, 0, W)]).toEqual(1);
+
+      expect(chip8.display[h.to1D(0, 0, W)]).not.toEqual(
+        initState.display[h.to1D(0, 0, W)]
+      );
+    });
   });
   // Ex9E - SKP Vx
   // ExA1 - SKNP Vx
