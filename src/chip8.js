@@ -268,7 +268,7 @@ module.exports = {
   loadCharset: cloneDecorator(loadCharset),
   setV: cloneDecorator(setV),
   setMemory: cloneDecorator(setMemory),
-  decode: cloneDecorator(decode),
+  decode: decode,
   cycle: cloneDecorator(cycle),
   cls: cloneDecorator(cls),
   ret: cloneDecorator(ret),
