@@ -1,5 +1,7 @@
-function to1D(x, y, w) {
-  return x + y * w;
+const c = require("./consts");
+
+function to1D(x, y) {
+  return x + y * c.screenWidth;
 }
 
 module.exports = {
