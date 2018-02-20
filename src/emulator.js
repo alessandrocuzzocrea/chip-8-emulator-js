@@ -6,10 +6,7 @@ let span;
 
 function init() {
   chip = chip8.loadCharset(chip8.reset(new chip8.Chip8()));
-
-  span = document.createElement("pre");
-  span.id = "emulator";
-  document.body.appendChild(span);
+  span = document.querySelector("pre#emulator");
 }
 
 function loadRom(name) {
