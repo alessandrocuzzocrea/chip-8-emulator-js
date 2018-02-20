@@ -12,7 +12,7 @@ function Chip8() {
   this.soundTimer = null;
 }
 
-function cloneDecorator(fn) {
+function clone(fn) {
   return function(chip8, ...args) {
     const newChip8 = _.cloneDeep(chip8);
     fn.call(null, newChip8, ...args);
@@ -271,34 +271,34 @@ function loadRom(chip8, rom) {
 
 module.exports = {
   Chip8: Chip8,
-  reset: cloneDecorator(reset),
-  loadCharset: cloneDecorator(loadCharset),
-  setV: cloneDecorator(setV),
-  setMemory: cloneDecorator(setMemory),
+  reset: clone(reset),
+  loadCharset: clone(loadCharset),
+  setV: clone(setV),
+  setMemory: clone(setMemory),
   decode: decode,
   cycle: cycle,
-  loadRom: cloneDecorator(loadRom),
-  cls: cloneDecorator(cls),
-  ret: cloneDecorator(ret),
-  jp: cloneDecorator(jp),
-  call: cloneDecorator(call),
-  se: cloneDecorator(se),
-  sne: cloneDecorator(sne),
-  seXY: cloneDecorator(seXY),
-  ld: cloneDecorator(ld),
-  add: cloneDecorator(add),
-  ldXY: cloneDecorator(ldXY),
-  orXY: cloneDecorator(orXY),
-  andXY: cloneDecorator(andXY),
-  xorXY: cloneDecorator(xorXY),
-  addXY: cloneDecorator(addXY),
-  subXY: cloneDecorator(subXY),
-  shrX: cloneDecorator(shrX),
-  subnXY: cloneDecorator(subnXY),
-  shlX: cloneDecorator(shlX),
-  sneXY: cloneDecorator(sneXY),
-  ldI: cloneDecorator(ldI),
-  jpV0: cloneDecorator(jpV0),
-  rnd: cloneDecorator(rnd),
-  drw: cloneDecorator(drw)
+  loadRom: clone(loadRom),
+  cls: clone(cls),
+  ret: clone(ret),
+  jp: clone(jp),
+  call: clone(call),
+  se: clone(se),
+  sne: clone(sne),
+  seXY: clone(seXY),
+  ld: clone(ld),
+  add: clone(add),
+  ldXY: clone(ldXY),
+  orXY: clone(orXY),
+  andXY: clone(andXY),
+  xorXY: clone(xorXY),
+  addXY: clone(addXY),
+  subXY: clone(subXY),
+  shrX: clone(shrX),
+  subnXY: clone(subnXY),
+  shlX: clone(shlX),
+  sneXY: clone(sneXY),
+  ldI: clone(ldI),
+  jpV0: clone(jpV0),
+  rnd: clone(rnd),
+  drw: clone(drw)
 };
