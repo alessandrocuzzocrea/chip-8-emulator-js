@@ -1,9 +1,15 @@
 const chip8 = require("./chip8");
+const renderer = require("./renderer");
 
 let chip;
+let span;
 
 function init() {
   chip = chip8.loadCharset(chip8.reset(new chip8.Chip8()));
+
+  span = document.createElement("pre");
+  span.id = "emulator";
+  document.body.appendChild(span);
 }
 
 function loadRom(name) {
@@ -14,7 +20,17 @@ function loadRom(name) {
     });
 }
 
+function run() {
+  function cycle() {
+    chip = chip8.cycle(chip);
+    span.innerHTML = renderer.formatDisplay(chip);
+    window.requestAnimationFrame(cycle);
+  }
+  window.requestAnimationFrame(cycle);
+}
+
 module.exports = {
   init,
-  loadRom
+  loadRom,
+  run
 };
