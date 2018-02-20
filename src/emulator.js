@@ -6,6 +6,15 @@ function init() {
   chip = chip8.loadCharset(chip8.reset(new chip8.Chip8()));
 }
 
+function loadRom(name) {
+  return fetch(`/roms/${name}`)
+    .then(res => res.arrayBuffer())
+    .then(data => {
+      chip = chip8.loadRom(chip, new Uint8Array(data));
+    });
+}
+
 module.exports = {
-  init
+  init,
+  loadRom
 };
