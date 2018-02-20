@@ -2,11 +2,11 @@ const chip8 = require("./chip8");
 const renderer = require("./renderer");
 
 let chip;
-let span;
+let pre;
 
 function init() {
   chip = chip8.loadCharset(chip8.reset(new chip8.Chip8()));
-  span = document.querySelector("pre#emulator");
+  pre = document.querySelector("pre#emulator");
 }
 
 function loadRom(name) {
@@ -20,7 +20,7 @@ function loadRom(name) {
 function run() {
   function cycle() {
     chip = chip8.cycle(chip);
-    span.innerHTML = renderer.formatDisplay(chip);
+    pre.innerHTML = renderer.formatDisplay(chip);
     window.requestAnimationFrame(cycle);
   }
   window.requestAnimationFrame(cycle);
