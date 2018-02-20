@@ -9,7 +9,7 @@ module.exports = {
     filename: "bundle.js"
   },
   plugins: [
-    new HtmlWebpackPlugin(),
+    new HtmlWebpackPlugin({ template: __dirname + "/public/index.html" }),
     new CopyWebpackPlugin([{ from: __dirname + "/roms", to: "./roms" }])
   ],
   devtool: "source-map"
