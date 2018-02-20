@@ -1,6 +1,6 @@
-// import Chip8 from './chip8';
+const emulator = require("./emulator");
 
-// console.log(new Date());
-// console.log('ciao');
-
-// console.log(Chip8);
+emulator.init();
+emulator.loadRom("IBM").then(() => {
+  emulator.run();
+});
