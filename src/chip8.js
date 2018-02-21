@@ -253,7 +253,7 @@ function decode(chip, opcode) {
       break;
   }
 
-  throw new Error("Illegal opcode");
+  throw new Error(`Illegal opcode: ${opcode.toString(16)}`);
 }
 
 function cycle(chip) {
