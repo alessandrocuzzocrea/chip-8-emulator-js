@@ -3,10 +3,16 @@ const renderer = require("./renderer");
 
 let chip;
 let pre;
+let romSelect;
 
 function init() {
   chip = chip8.loadCharset(chip8.reset(new chip8.Chip8()));
   pre = document.querySelector("pre#emulator");
+  romSelect = document.querySelector("select#rom-select");
+}
+
+function getSelectedRom() {
+  return romSelect.value;
 }
 
 function loadRom(name) {
@@ -28,6 +34,7 @@ function run() {
 
 module.exports = {
   init,
+  getSelectedRom,
   loadRom,
   run
 };
