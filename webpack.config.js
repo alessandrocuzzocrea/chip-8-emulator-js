@@ -13,7 +13,7 @@ module.exports = {
     new HtmlWebpackPlugin({ template: __dirname + "/public/index.html" }),
     new CopyWebpackPlugin([
       { from: __dirname + "/roms", to: "./roms" },
-      { from: __dirname + "/public", to: "./", ignore: ["*.html"] }
+      { from: __dirname + "/public/style.css", to: "./style.css" }
     ]),
     new CleanWebpackPlugin([__dirname + "/dist"])
   ],
