@@ -249,6 +249,12 @@ function decode(chip, opcode) {
     case 0xd:
       // "Dxyn - DRW Vx, Vy, nibble"
       return module.exports.drw(chip, b, c, d);
+    case 0xc: {
+      // Cxkk - RND Vx, byte
+      const x = b;
+      const kk = (c << 4) + d;
+      return module.exports.rnd(chip, x, kk);
+    }
     default:
       break;
   }
