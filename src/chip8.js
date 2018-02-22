@@ -1,5 +1,6 @@
 const _ = require("lodash");
 const consts = require("./consts");
+const h = require("./helpers");
 
 function Chip8() {
   this.memory = null;
@@ -199,6 +200,7 @@ function rnd(chip8, x, byte) {
 }
 
 function drw(chip8, x, y, byte) {
+  let vf = 0;
   const xCoord = chip8.v[x];
   const yCoord = chip8.v[y];
   const i = chip8.i;
@@ -207,10 +209,16 @@ function drw(chip8, x, y, byte) {
     const line = chip8.memory[i + y];
     for (let x = 0; x < 8; x++) {
       const val = (line >> (7 - x)) & 0b00000001;
-      chip8.display[x + xCoord + (y + yCoord) * 64] = val;
+      const index = h.to1D(x + xCoord, y + yCoord);
+      const prevVal = chip8.display[index];
+      const newVal = val ^ prevVal;
+      chip8.display[index] = newVal;
+      if (val === 1 && prevVal === 1) {
+        vf = 1;
+      }
     }
   }
-
+  chip8.v[0xf] = vf;
   chip8.pc = chip8.pc + 2;
   return chip8;
 }

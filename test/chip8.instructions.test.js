@@ -320,42 +320,73 @@ describe("opcodes", () => {
   });
 
   describe("DRW Vx, Vy, nibble - Dxyn", () => {
-    it("should draw a pixel at coords 0 0", () => {
-      let chip8 = chip.setMemory(initState, 0x000, 0b10000000);
-      const W = 64;
-      chip8 = chip.drw(chip8, 0, 0, 1);
+    describe("single pixel", () => {
+      const chip8_0 = chip.setMemory(initState, 0x000, 0b10000000);
+      const chip8_1 = chip.drw(chip8_0, 0, 0, 1);
+      const chip8_2 = chip.drw(chip8_1, 0, 0, 1);
 
-      expect(chip8.display[h.to1D(0, 0, W)]).toEqual(1);
-      expect(chip8.display[h.to1D(1, 0, W)]).toEqual(0);
-      expect(chip8.display[h.to1D(2, 0, W)]).toEqual(0);
-      expect(chip8.display[h.to1D(3, 0, W)]).toEqual(0);
-      expect(chip8.display[h.to1D(4, 0, W)]).toEqual(0);
-      expect(chip8.display[h.to1D(5, 0, W)]).toEqual(0);
-      expect(chip8.display[h.to1D(6, 0, W)]).toEqual(0);
-      expect(chip8.display[h.to1D(7, 0, W)]).toEqual(0);
+      it("increases the pc by 2", () => {
+        expect(chip8_1.pc).toEqual(initState.pc + 2);
+      });
 
-      expect(chip8.display[h.to1D(0, 0, W)]).not.toEqual(
-        initState.display[h.to1D(0, 0, W)]
-      );
+      it("draws a pixel at coords 0 0 (first call)", () => {
+        expect(chip8_1.display[h.to1D(0, 0)]).toEqual(1);
+        expect(chip8_1.display[h.to1D(1, 0)]).toEqual(0);
+        expect(chip8_1.display[h.to1D(2, 0)]).toEqual(0);
+        expect(chip8_1.display[h.to1D(3, 0)]).toEqual(0);
+        expect(chip8_1.display[h.to1D(4, 0)]).toEqual(0);
+        expect(chip8_1.display[h.to1D(5, 0)]).toEqual(0);
+        expect(chip8_1.display[h.to1D(6, 0)]).toEqual(0);
+        expect(chip8_1.display[h.to1D(7, 0)]).toEqual(0);
+
+        expect(chip8_1.display[h.to1D(0, 0)]).not.toEqual(
+          initState.display[h.to1D(0, 0)]
+        );
+      });
+
+      it("sets VF to 0 (first call)", () => {
+        expect(chip8_1.v[0xf]).toEqual(0);
+      });
+
+      it("clears the pixel at coords 0 0 (second call)", () => {
+        expect(chip8_2.display[h.to1D(0, 0)]).toEqual(0);
+        expect(chip8_2.display[h.to1D(1, 0)]).toEqual(0);
+        expect(chip8_2.display[h.to1D(2, 0)]).toEqual(0);
+        expect(chip8_2.display[h.to1D(3, 0)]).toEqual(0);
+        expect(chip8_2.display[h.to1D(4, 0)]).toEqual(0);
+        expect(chip8_2.display[h.to1D(5, 0)]).toEqual(0);
+        expect(chip8_2.display[h.to1D(6, 0)]).toEqual(0);
+        expect(chip8_2.display[h.to1D(7, 0)]).toEqual(0);
+
+        expect(chip8_2.display[h.to1D(0, 0)]).toEqual(
+          initState.display[h.to1D(0, 0)]
+        );
+      });
+
+      it("sets VF to 1 (second call)", () => {
+        expect(chip8_2.v[0xf]).toEqual(1);
+      });
     });
 
-    it("should draw a line starting at coords 0,0 ending at 0,7", () => {
-      let chip8 = chip.setMemory(initState, 0x000, 0b11111111);
-      const W = 64;
-      chip8 = chip.drw(chip8, 0, 0, 1);
+    describe("horizontal pixel row", () => {
+      it("draws a line starting at coords 0,0 ending at 0,7", () => {
+        let chip8 = chip.setMemory(initState, 0x000, 0b11111111);
+        const W = 64;
+        chip8 = chip.drw(chip8, 0, 0, 1);
 
-      expect(chip8.display[h.to1D(0, 0, W)]).toEqual(1);
-      expect(chip8.display[h.to1D(1, 0, W)]).toEqual(1);
-      expect(chip8.display[h.to1D(2, 0, W)]).toEqual(1);
-      expect(chip8.display[h.to1D(3, 0, W)]).toEqual(1);
-      expect(chip8.display[h.to1D(4, 0, W)]).toEqual(1);
-      expect(chip8.display[h.to1D(5, 0, W)]).toEqual(1);
-      expect(chip8.display[h.to1D(6, 0, W)]).toEqual(1);
-      expect(chip8.display[h.to1D(7, 0, W)]).toEqual(1);
+        expect(chip8.display[h.to1D(0, 0, W)]).toEqual(1);
+        expect(chip8.display[h.to1D(1, 0, W)]).toEqual(1);
+        expect(chip8.display[h.to1D(2, 0, W)]).toEqual(1);
+        expect(chip8.display[h.to1D(3, 0, W)]).toEqual(1);
+        expect(chip8.display[h.to1D(4, 0, W)]).toEqual(1);
+        expect(chip8.display[h.to1D(5, 0, W)]).toEqual(1);
+        expect(chip8.display[h.to1D(6, 0, W)]).toEqual(1);
+        expect(chip8.display[h.to1D(7, 0, W)]).toEqual(1);
 
-      expect(chip8.display[h.to1D(0, 0, W)]).not.toEqual(
-        initState.display[h.to1D(0, 0, W)]
-      );
+        expect(chip8.display[h.to1D(0, 0, W)]).not.toEqual(
+          initState.display[h.to1D(0, 0, W)]
+        );
+      });
     });
   });
   // Ex9E - SKP Vx
