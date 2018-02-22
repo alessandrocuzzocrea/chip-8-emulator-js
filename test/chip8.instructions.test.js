@@ -23,14 +23,19 @@ describe("opcodes", () => {
     });
   });
 
-  it("RET - 00EE", () => {
+  describe("RET - 00EE", () => {
     const chip8 = { ...initState, stack: [0x300] };
     const afterRet = chip.ret(chip8);
 
-    expect(chip8.stack).toHaveLength(1);
-    expect(afterRet.pc).not.toEqual(initState.pc);
-    expect(afterRet.pc).toEqual(0x300);
-    expect(afterRet.stack).toHaveLength(0);
+    it("returns to stack topmost address", () => {
+      expect(afterRet.pc).toEqual(0x300);
+      expect(afterRet.pc).not.toEqual(initState.pc);
+    });
+
+    it("pops the value from the stack", () => {
+      expect(afterRet.stack).toHaveLength(0);
+      expect(afterRet.stack).not.toHaveLength(chip8.stack.length);
+    });
   });
 
   it("JP Addr - 1nnn", () => {
