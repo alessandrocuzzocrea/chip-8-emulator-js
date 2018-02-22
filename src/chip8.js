@@ -229,6 +229,12 @@ function decode(chip, opcode) {
       const nnn = (b << 8) + (c << 4) + d;
       return module.exports.jp(chip, nnn);
     }
+    case 0x3: {
+      // 3xkk - SE Vx, byte
+      const vx = b;
+      const byte = (c << 4) + d;
+      return module.exports.se(chip, vx, byte);
+    }
     case 0x6: {
       // 6xkk - LD Vx, byte
       const x = b;
