@@ -76,8 +76,9 @@ function call(chip8, addr) {
 
 function se(chip8, v, byte) {
   if (chip8.v[v] === byte) {
-    chip8.pc = chip8.pc + 2;
+    chip8.pc += 2;
   }
+  chip8.pc += 2;
   return chip8;
 }
 

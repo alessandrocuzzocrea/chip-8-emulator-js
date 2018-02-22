@@ -67,12 +67,12 @@ describe("opcodes", () => {
   describe("SE Vx, byte - 3xkk", () => {
     it("Skips next instruction if Vx = kk", () => {
       const afterSe = chip.se(initState, 0, 0x00);
-      expect(afterSe.pc).toEqual(initState.pc + 2);
+      expect(afterSe.pc).toEqual(initState.pc + 4);
     });
 
     it("Doesn't skip next instruction if Vx != kk", () => {
       const afterSe = chip.se(initState, 0, 0x01);
-      expect(afterSe.pc).toEqual(initState.pc);
+      expect(afterSe.pc).toEqual(initState.pc + 2);
     });
   });
 
