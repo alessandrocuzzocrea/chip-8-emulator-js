@@ -48,14 +48,20 @@ describe("opcodes", () => {
     });
   });
 
-  it("CALL Addr - 2nnn", () => {
+  describe("CALL Addr - 2nnn", () => {
     const callAddr = 0x300;
     const afterCall = chip.call(initState, callAddr);
 
-    expect(initState.pc).not.toEqual(callAddr);
-    expect(afterCall.stack).toHaveLength(initState.stack.length + 1);
-    expect(afterCall.stack[afterCall.stack.length - 1]).toEqual(initState.pc);
-    expect(afterCall.pc).toEqual(0x300);
+    it("jumps to address", () => {
+      expect(afterCall.pc).toEqual(0x300);
+      expect(afterCall.pc).not.toEqual(initState.pc);
+    });
+
+    it("pushes previous address to stack", () => {
+      expect(afterCall.stack).toHaveLength(1);
+      expect(afterCall.stack[0]).toEqual(0x200);
+      expect(afterCall.stack).not.toHaveLength(initState.stack.length);
+    });
   });
 
   it("SE Vx, byte - 3xkk - Skip next instruction if Vx = kk", () => {
