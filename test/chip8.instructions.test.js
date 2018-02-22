@@ -76,13 +76,16 @@ describe("opcodes", () => {
     });
   });
 
-  // 4xkk - SNE Vx, byte
-  it("SNE Vx, byte - 4xkk - Skip next instruction if Vx != kk", () => {
-    const afterSne1 = chip.sne(initState, 0, 0x00);
-    expect(afterSne1.pc).toEqual(initState.pc);
+  describe("SNE Vx, byte - 4xkk", () => {
+    it("Skips next instruction if Vx != kk", () => {
+      const afterSne = chip.sne(initState, 0, 0x01);
+      expect(afterSne.pc).toEqual(initState.pc + 4);
+    });
 
-    const afterSne2 = chip.sne(initState, 0, 0x01);
-    expect(afterSne2.pc).toEqual(initState.pc + 2);
+    it("Doesn't skip next instruction if Vx = kk", () => {
+      const afterSne = chip.sne(initState, 0, 0x00);
+      expect(afterSne.pc).toEqual(initState.pc + 2);
+    });
   });
 
   it("SE Vx, Vy - 5xy0 - Skip next instruction if Vx = Vy", () => {
