@@ -38,12 +38,14 @@ describe("opcodes", () => {
     });
   });
 
-  it("JP Addr - 1nnn", () => {
+  describe("JP Addr - 1nnn", () => {
     const jmpAddr = 0x300;
     const afterJp = chip.jp(initState, jmpAddr);
 
-    expect(initState.pc).not.toEqual(jmpAddr);
-    expect(afterJp.pc).toEqual(jmpAddr);
+    it("jumps to address", () => {
+      expect(initState.pc).not.toEqual(jmpAddr);
+      expect(afterJp.pc).toEqual(jmpAddr);
+    });
   });
 
   it("CALL Addr - 2nnn", () => {
