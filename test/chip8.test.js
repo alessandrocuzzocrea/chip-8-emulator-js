@@ -94,14 +94,13 @@ describe("Chip8", () => {
   });
 
   describe("decode", () => {
-    let spyCls, spyldI, spyLd, spyDrw, spyAdd;
+    let spyCls, spyldI, spyLd, spyDrw, spyAdd, jpSpy, rndSpy, seSpy;
 
     beforeAll(() => {
       spyCls = jest.spyOn(chip, "cls");
       spyldI = jest.spyOn(chip, "ldI");
       spyLd = jest.spyOn(chip, "ld");
       spyDrw = jest.spyOn(chip, "drw");
-      spyAdd = jest.spyOn(chip, "add");
       spyAdd = jest.spyOn(chip, "add");
       jpSpy = jest.spyOn(chip, "jp");
       rndSpy = jest.spyOn(chip, "rnd");
