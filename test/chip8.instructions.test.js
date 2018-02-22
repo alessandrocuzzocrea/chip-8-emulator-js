@@ -88,15 +88,19 @@ describe("opcodes", () => {
     });
   });
 
-  it("SE Vx, Vy - 5xy0 - Skip next instruction if Vx = Vy", () => {
-    const afterSne1 = chip.seXY(initState, 0, 1);
-    expect(afterSne1.pc).toEqual(initState.pc + 2);
+  describe("SE Vx, Vy - 5xy0", () => {
+    it("Skips next instruction if Vx = Vy", () => {
+      const afterSne = chip.seXY(initState, 0, 1);
+      expect(afterSne.pc).toEqual(initState.pc + 4);
+    });
 
-    // prettier-ignore
-    const differentVY = {...initState, v: new Uint8Array([0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])}
+    it("Doesn't skip next instruction if Vx != Vy", () => {
+      // prettier-ignore
+      const differentVY = {...initState, v: new Uint8Array([0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])}
 
-    const afterSne2 = chip.seXY(differentVY, 0, 1);
-    expect(afterSne2.pc).toEqual(initState.pc);
+      const afterSne = chip.seXY(differentVY, 0, 1);
+      expect(afterSne.pc).toEqual(initState.pc + 2);
+    });
   });
 
   it("LD Vx, byte - 6xkk", () => {
