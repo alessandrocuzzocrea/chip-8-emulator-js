@@ -64,12 +64,16 @@ describe("opcodes", () => {
     });
   });
 
-  it("SE Vx, byte - 3xkk - Skip next instruction if Vx = kk", () => {
-    const afterSe1 = chip.se(initState, 0, 0x00);
-    expect(afterSe1.pc).toEqual(initState.pc + 2);
+  describe("SE Vx, byte - 3xkk", () => {
+    it("Skips next instruction if Vx = kk", () => {
+      const afterSe = chip.se(initState, 0, 0x00);
+      expect(afterSe.pc).toEqual(initState.pc + 2);
+    });
 
-    const afterSe2 = chip.se(initState, 0, 0x01);
-    expect(afterSe2.pc).toEqual(initState.pc);
+    it("Doesn't skip next instruction if Vx != kk", () => {
+      const afterSe = chip.se(initState, 0, 0x01);
+      expect(afterSe.pc).toEqual(initState.pc);
+    });
   });
 
   // 4xkk - SNE Vx, byte
