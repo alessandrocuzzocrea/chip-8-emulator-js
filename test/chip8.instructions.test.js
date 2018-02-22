@@ -1,17 +1,26 @@
-const consts = require("../src/consts");
+const c = require("../src/consts");
 const h = require("../src/helpers");
 const chip = require("../src/chip8");
 
 describe("opcodes", () => {
   const initState = chip.reset(new chip.Chip8());
 
-  it("CLS - 00E0", () => {
-    const chip8 = { ...initState, display: Array(64 * 32).fill(1) };
+  describe("CLS - 00E0", () => {
+    const chip8 = {
+      ...initState,
+      display: Array(c.screenWidth * c.screenHeight).fill(1)
+    };
     const afterCls = chip.cls(chip8);
 
-    expect(chip8.display).not.toEqual(initState.display);
-    expect(afterCls.display).not.toEqual(chip8.display);
-    expect(afterCls.display).toEqual(initState.display);
+    it("clears the display", () => {
+      expect(chip8.display).not.toEqual(initState.display);
+      expect(afterCls.display).not.toEqual(chip8.display);
+      expect(afterCls.display).toEqual(initState.display);
+    });
+
+    it("increases the pc by 2", () => {
+      expect(afterCls.pc).toEqual(chip8.pc + 2);
+    });
   });
 
   it("RET - 00EE", () => {
