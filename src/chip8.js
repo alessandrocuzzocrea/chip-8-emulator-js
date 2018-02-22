@@ -240,6 +240,10 @@ function decode(chip, opcode) {
       const nnn = (b << 8) + (c << 4) + d;
       return module.exports.jp(chip, nnn);
     }
+    case 0x2: {
+      const nnn = (b << 8) + (c << 4) + d;
+      return module.exports.call(chip, nnn);
+    }
     case 0x3: {
       // 3xkk - SE Vx, byte
       const vx = b;
