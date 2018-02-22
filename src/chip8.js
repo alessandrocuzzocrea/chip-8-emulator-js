@@ -193,7 +193,7 @@ function jpV0(chip8, addr) {
 }
 
 function rnd(chip8, x, byte) {
-  chip8.v[x] = Math.floor(Math.random() * 256) + byte;
+  chip8.v[x] = Math.floor(Math.random() * 256) & byte;
   chip8.pc = chip8.pc + 2;
   return chip8;
 }

@@ -289,12 +289,34 @@ describe("opcodes", () => {
     expect(afterOp.pc).not.toEqual(initState.pc);
   });
 
-  it("RND Vx, byte - Cxkk", () => {
-    const rndMock = jest.spyOn(Math, "random").mockReturnValue(0.5);
-    const afterOp = chip.rnd(initState, 0, 0x01);
+  describe("RND Vx, byte - Cxkk", () => {
+    const rndMock = jest.spyOn(Math, "random");
+    afterAll(() => {
+      rndMock.mockRestore();
+    });
 
-    expect(afterOp.v[0]).toEqual(0x81);
-    rndMock.mockRestore();
+    it("sets Vx to a random value between 0 to 255", () => {
+      {
+        rndMock.mockReturnValue(0.5);
+        const afterOp = chip.rnd(initState, 0, 0x01);
+        expect(afterOp.v[0]).toEqual(0);
+      }
+      {
+        rndMock.mockReturnValue(0.5);
+        const afterOp = chip.rnd(initState, 0, 128);
+        expect(afterOp.v[0]).toEqual(128);
+      }
+      {
+        rndMock.mockReturnValue(0.999);
+        const afterOp = chip.rnd(initState, 0, 128);
+        expect(afterOp.v[0]).toEqual(128);
+      }
+    });
+
+    it("increases the pc by 2", () => {
+      const afterOp = chip.rnd(initState, 0, 0x01);
+      expect(afterOp.pc).toEqual(initState.pc + 2);
+    });
   });
 
   describe("DRW Vx, Vy, nibble - Dxyn", () => {
