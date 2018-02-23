@@ -45,6 +45,11 @@ function setV(chip8, vi, val) {
   return chip8;
 }
 
+function setI(chip8, val) {
+  chip8.i = val;
+  return chip8;
+}
+
 function setMemory(chip8, addr, val) {
   chip8.memory[addr] = val;
   return chip8;
@@ -350,6 +355,7 @@ module.exports = {
   reset: clone(reset),
   loadCharset: clone(loadCharset),
   setV: clone(setV),
+  setI: clone(setI),
   setMemory: clone(setMemory),
   decode: decode,
   cycle: cycle,
