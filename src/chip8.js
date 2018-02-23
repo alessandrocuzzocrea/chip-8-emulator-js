@@ -223,7 +223,7 @@ function drw(chip8, x, y, byte) {
   return chip8;
 }
 
-function decode(chip, opcode) {
+function decode(chip, opcode, logger) {
   const a = (opcode & 0b1111000000000000) >> 12;
   const b = (opcode & 0b0000111100000000) >> 8;
   const c = (opcode & 0b0000000011110000) >> 4;
@@ -231,55 +231,87 @@ function decode(chip, opcode) {
 
   //0 Group
   switch (a) {
-    case 0x0: {
-      // 00E0 - CLS
-      if (b === 0x0 && c === 0xe && d === 0x0) {
-        return module.exports.cls(chip);
+    case 0x0:
+      {
+        // 00E0 - CLS
+        if (b === 0x0 && c === 0xe && d === 0x0) {
+          if (logger) logger.log(`00E0 - CLS`);
+          return module.exports.cls(chip);
+        }
+        // 00EE - RET
+        if (b === 0x0 && c === 0xe && d === 0xe) {
+          if (logger) logger.log(`00EE - RET`);
+          return module.exports.ret(chip);
+        }
       }
-      // 00EE - RET
-      if (b === 0x0 && c === 0xe && d === 0xe) {
-        return module.exports.ret(chip);
-      }
-    }
+      break;
     case 0x1: {
+      // 1nnn - JP addr
       const nnn = (b << 8) + (c << 4) + d;
+      if (logger) logger.log(`1nnn - JP addr: nnn=${nnn.toString(16)}`);
       return module.exports.jp(chip, nnn);
     }
     case 0x2: {
+      // 2nnn - CALL addr
       const nnn = (b << 8) + (c << 4) + d;
+      if (logger) logger.log(`2nnn - CALL addr: nnn=${nnn.toString(16)}`);
       return module.exports.call(chip, nnn);
     }
     case 0x3: {
       // 3xkk - SE Vx, byte
       const vx = b;
       const byte = (c << 4) + d;
+      if (logger)
+        logger.log(
+          `3xkk - SE Vx, byte: Vx=${vx.toString(16)}, byte=${byte.toString(16)}`
+        );
       return module.exports.se(chip, vx, byte);
     }
     case 0x6: {
       // 6xkk - LD Vx, byte
-      const x = b;
-      const kk = (c << 4) + d;
-      return module.exports.ld(chip, b, kk);
+      const vx = b;
+      const byte = (c << 4) + d;
+      if (logger)
+        logger.log(
+          `6xkk - LD Vx, byte: Vx=${vx.toString(16)}, byte=${byte.toString(16)}`
+        );
+      return module.exports.ld(chip, vx, byte);
     }
     case 0x7: {
       // "7xkk - ADD Vx, byte"
-      const x = b;
-      const kk = (c << 4) + d;
-      return module.exports.add(chip, b, kk);
+      const vx = b;
+      const byte = (c << 4) + d;
+      if (logger)
+        logger.log(
+          `7xkk - ADD Vx, byte, byte: Vx=${vx.toString(
+            16
+          )}, byte=${byte.toString(16)}`
+        );
+      return module.exports.add(chip, vx, byte);
     }
     case 0xa: {
       // "Annn - LD I, addr"
       const nnn = (b << 8) + (c << 4) + d;
+      if (logger) logger.log(`Annn - LD I, addr: nnn=${nnn.toString(16)}`);
       return module.exports.ldI(chip, nnn);
     }
     case 0xd:
       // "Dxyn - DRW Vx, Vy, nibble"
+      if (logger)
+        logger.log(`Dxyn - DRW Vx, Vy, nibble: Vx=${b}, Vy=${c}, nibble=${d}`);
       return module.exports.drw(chip, b, c, d);
     case 0xc: {
       // Cxkk - RND Vx, byte
       const x = b;
-      const kk = (c << 4) + d;
-      return module.exports.rnd(chip, x, kk);
+      const byte = (c << 4) + d;
+      if (logger)
+        logger.log(
+          `Cxkk - RND Vx, byte, byte: Vx=${x.toString(
+            16
+          )}, byte=${byte.toString(16)}`
+        );
+
+      return module.exports.rnd(chip, x, byte);
     }
     default:
       break;
@@ -288,10 +320,12 @@ function decode(chip, opcode) {
   throw new Error(`Illegal opcode: ${opcode.toString(16)}`);
 }
 
-function cycle(chip) {
+function cycle(chip, logger) {
   const { pc, memory } = chip;
   const opcode = (memory[pc] << 8) | memory[pc + 1];
-  return module.exports.decode(chip, opcode);
+  const args = Array.from(arguments);
+  args.splice(1, 0, opcode);
+  return module.exports.decode.apply(null, args);
 }
 
 function loadRom(chip8, rom) {
