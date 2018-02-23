@@ -267,6 +267,16 @@ function decode(chip, opcode, logger) {
         );
       return module.exports.se(chip, vx, byte);
     }
+    case 0x4: {
+      // 4xkk - SNE Vx, byte
+      const vx = b;
+      const byte = (c << 4) + d;
+      if (logger)
+        logger.log(
+          `4xkk - SE Vx, byte: Vx=${vx.toString(16)}, byte=${byte.toString(16)}`
+        );
+      return module.exports.sne(chip, vx, byte);
+    }
     case 0x6: {
       // 6xkk - LD Vx, byte
       const vx = b;
