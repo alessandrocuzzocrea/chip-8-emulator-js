@@ -58,7 +58,7 @@ function cls(chip8) {
 
 function ret(chip8) {
   chip8.pc = chip8.stack.pop();
-  chip8.pc = chip8.pc + 0;
+  chip8.pc = chip8.pc + 2;
   return chip8;
 }
 

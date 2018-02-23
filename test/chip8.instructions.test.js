@@ -27,8 +27,8 @@ describe("opcodes", () => {
     const chip8 = { ...initState, stack: [0x300] };
     const afterRet = chip.ret(chip8);
 
-    it("returns to stack topmost address", () => {
-      expect(afterRet.pc).toEqual(0x300);
+    it("returns to stack topmost address + 2", () => {
+      expect(afterRet.pc).toEqual(0x300 + 2);
       expect(afterRet.pc).not.toEqual(initState.pc);
     });
 
