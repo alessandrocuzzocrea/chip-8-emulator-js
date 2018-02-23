@@ -94,7 +94,16 @@ describe("Chip8", () => {
   });
 
   describe("decode", () => {
-    let spyCls, spyldI, spyLd, spyDrw, spyAdd, jpSpy, rndSpy, seSpy, callSpy;
+    let spyCls,
+      spyldI,
+      spyLd,
+      spyDrw,
+      spyAdd,
+      jpSpy,
+      rndSpy,
+      seSpy,
+      callSpy,
+      retSpy;
 
     beforeAll(() => {
       spyCls = jest.spyOn(chip, "cls");
@@ -106,6 +115,7 @@ describe("Chip8", () => {
       rndSpy = jest.spyOn(chip, "rnd");
       seSpy = jest.spyOn(chip, "se");
       callSpy = jest.spyOn(chip, "call");
+      retSpy = jest.spyOn(chip, "ret");
     });
 
     afterEach(() => {
@@ -115,6 +125,11 @@ describe("Chip8", () => {
     it("decode 00E0 correctly", () => {
       chip.decode(afterResetState, 0x00e0);
       expect(spyCls).toBeCalled();
+    });
+
+    it("decode 00EE correctly", () => {
+      chip.decode(afterResetState, 0x00ee);
+      expect(retSpy).toBeCalled();
     });
 
     it("decode 1nnn correctly", () => {

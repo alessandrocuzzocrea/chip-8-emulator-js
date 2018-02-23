@@ -231,11 +231,16 @@ function decode(chip, opcode) {
 
   //0 Group
   switch (a) {
-    case 0x0:
+    case 0x0: {
       // 00E0 - CLS
       if (b === 0x0 && c === 0xe && d === 0x0) {
         return module.exports.cls(chip);
       }
+      // 00EE - RET
+      if (b === 0x0 && c === 0xe && d === 0xe) {
+        return module.exports.ret(chip);
+      }
+    }
     case 0x1: {
       const nnn = (b << 8) + (c << 4) + d;
       return module.exports.jp(chip, nnn);
