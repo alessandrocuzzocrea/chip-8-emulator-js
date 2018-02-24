@@ -113,7 +113,8 @@ describe("Chip8", () => {
       seSpy,
       callSpy,
       retSpy,
-      sneSpy;
+      sneSpy,
+      addIVxSpy;
 
     beforeAll(() => {
       spyCls = jest.spyOn(chip, "cls");
@@ -127,6 +128,7 @@ describe("Chip8", () => {
       callSpy = jest.spyOn(chip, "call");
       retSpy = jest.spyOn(chip, "ret");
       sneSpy = jest.spyOn(chip, "sne");
+      addIVxSpy = jest.spyOn(chip, "addIVx");
     });
 
     afterEach(() => {
@@ -197,6 +199,11 @@ describe("Chip8", () => {
     it("decode 3201 correctly", () => {
       chip.decode(afterResetState, 0x3201);
       expect(seSpy).toHaveBeenCalledWith(expect.any(chip.Chip8), 0x2, 0x1);
+    });
+
+    it("decode fx1e correctly", () => {
+      chip.decode(afterResetState, 0xf41e);
+      expect(addIVxSpy).toHaveBeenCalledWith(expect.any(chip.Chip8), 0x4);
     });
 
     it("throws an exception if opcode is illegal", () => {

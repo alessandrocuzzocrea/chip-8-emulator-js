@@ -321,19 +321,32 @@ function decode(chip, opcode, logger) {
       if (logger)
         logger.log(`Dxyn - DRW Vx, Vy, nibble: Vx=${b}, Vy=${c}, nibble=${d}`);
       return module.exports.drw(chip, b, c, d);
-    case 0xc: {
-      // Cxkk - RND Vx, byte
-      const x = b;
-      const byte = (c << 4) + d;
-      if (logger)
-        logger.log(
-          `Cxkk - RND Vx, byte, byte: Vx=${x.toString(
-            16
-          )}, byte=${byte.toString(16)}`
-        );
+    case 0xc:
+      {
+        // Cxkk - RND Vx, byte
+        const x = b;
+        const byte = (c << 4) + d;
+        if (logger)
+          logger.log(
+            `Cxkk - RND Vx, byte, byte: Vx=${x.toString(
+              16
+            )}, byte=${byte.toString(16)}`
+          );
 
-      return module.exports.rnd(chip, x, byte);
-    }
+        return module.exports.rnd(chip, x, byte);
+      }
+      break;
+    case 0xf:
+      {
+        // Fx1E - ADD I, Vx
+        if (c === 0x1 && d === 0xe) {
+          const x = b;
+          if (logger) logger.log(`Fx1E - ADD I, Vx=${x.toString(16)}`);
+
+          return module.exports.addIVx(chip, x);
+        }
+      }
+      break;
     default:
       break;
   }
