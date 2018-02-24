@@ -228,6 +228,12 @@ function drw(chip8, x, y, byte) {
   return chip8;
 }
 
+function addIVx(chip8, x) {
+  chip8.i += chip8.v[x];
+  chip8.pc = chip8.pc + 2;
+  return chip8;
+}
+
 function decode(chip, opcode, logger) {
   const a = (opcode & 0b1111000000000000) >> 12;
   const b = (opcode & 0b0000111100000000) >> 8;
@@ -382,5 +388,6 @@ module.exports = {
   ldI: clone(ldI),
   jpV0: clone(jpV0),
   rnd: clone(rnd),
-  drw: clone(drw)
+  drw: clone(drw),
+  addIVx: clone(addIVx)
 };

@@ -395,7 +395,17 @@ describe("opcodes", () => {
   // Fx0A - LD Vx, K
   // Fx15 - LD DT, Vx
   // Fx18 - LD ST, Vx
-  // Fx1E - ADD I, Vx
+
+  describe("ADD I, Vx - Fx1E", () => {
+    it("sets I = I + Vx", () => {
+      let chip8 = chip.setV(initState, 0, 0x1);
+      chip8 = chip.setI(chip8, 0x2);
+
+      const afterOp = chip.addIVx(chip8, 0);
+      expect(afterOp.i).toEqual(0x3);
+    });
+  });
+
   // Fx29 - LD F, Vx
   // Fx33 - LD B, Vx
   // Fx55 - LD [I], Vx
