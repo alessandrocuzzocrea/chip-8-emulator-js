@@ -17,18 +17,14 @@ describe("opcodes", () => {
       expect(afterCls.display).not.toEqual(chip8.display);
       expect(afterCls.display).toEqual(initState.display);
     });
-
-    it("increases the pc by 2", () => {
-      expect(afterCls.pc).toEqual(chip8.pc + 2);
-    });
   });
 
   describe("RET - 00EE", () => {
     const chip8 = { ...initState, stack: [0x300] };
     const afterRet = chip.ret(chip8);
 
-    it("returns to stack topmost address + 2", () => {
-      expect(afterRet.pc).toEqual(0x300 + 2);
+    it("returns to stack topmost address", () => {
+      expect(afterRet.pc).toEqual(0x300);
       expect(afterRet.pc).not.toEqual(initState.pc);
     });
 
@@ -67,31 +63,31 @@ describe("opcodes", () => {
   describe("SE Vx, byte - 3xkk", () => {
     it("Skips next instruction if Vx = kk", () => {
       const afterSe = chip.se(initState, 0, 0x00);
-      expect(afterSe.pc).toEqual(initState.pc + 4);
+      expect(afterSe.pc).toEqual(initState.pc + 2);
     });
 
     it("Doesn't skip next instruction if Vx != kk", () => {
       const afterSe = chip.se(initState, 0, 0x01);
-      expect(afterSe.pc).toEqual(initState.pc + 2);
+      expect(afterSe.pc).toEqual(initState.pc + 0);
     });
   });
 
   describe("SNE Vx, byte - 4xkk", () => {
     it("Skips next instruction if Vx != kk", () => {
       const afterSne = chip.sne(initState, 0, 0x01);
-      expect(afterSne.pc).toEqual(initState.pc + 4);
+      expect(afterSne.pc).toEqual(initState.pc + 2);
     });
 
     it("Doesn't skip next instruction if Vx = kk", () => {
       const afterSne = chip.sne(initState, 0, 0x00);
-      expect(afterSne.pc).toEqual(initState.pc + 2);
+      expect(afterSne.pc).toEqual(initState.pc + 0);
     });
   });
 
   describe("SE Vx, Vy - 5xy0", () => {
     it("Skips next instruction if Vx = Vy", () => {
       const afterSne = chip.seXY(initState, 0, 1);
-      expect(afterSne.pc).toEqual(initState.pc + 4);
+      expect(afterSne.pc).toEqual(initState.pc + 2);
     });
 
     it("Doesn't skip next instruction if Vx != Vy", () => {
@@ -99,7 +95,7 @@ describe("opcodes", () => {
       const differentVY = {...initState, v: new Uint8Array([0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])}
 
       const afterSne = chip.seXY(differentVY, 0, 1);
-      expect(afterSne.pc).toEqual(initState.pc + 2);
+      expect(afterSne.pc).toEqual(initState.pc + 0);
     });
   });
 
@@ -265,7 +261,7 @@ describe("opcodes", () => {
 
   it("SNE Vx, Vy - 9xy0 - Skip next instruction if Vx != Vy", () => {
     const afterOp1 = chip.sneXY(initState, 0, 1);
-    expect(afterOp1.pc).toEqual(initState.pc);
+    expect(afterOp1.pc).toEqual(initState.pc + 0);
 
     // prettier-ignore
     const differentVY = {...initState, v: new Uint8Array([0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])}
@@ -312,11 +308,6 @@ describe("opcodes", () => {
         expect(afterOp.v[0]).toEqual(128);
       }
     });
-
-    it("increases the pc by 2", () => {
-      const afterOp = chip.rnd(initState, 0, 0x01);
-      expect(afterOp.pc).toEqual(initState.pc + 2);
-    });
   });
 
   describe("DRW Vx, Vy, nibble - Dxyn", () => {
@@ -324,10 +315,6 @@ describe("opcodes", () => {
       const chip8_0 = chip.setMemory(initState, 0x000, 0b10000000);
       const chip8_1 = chip.drw(chip8_0, 0, 0, 1);
       const chip8_2 = chip.drw(chip8_1, 0, 0, 1);
-
-      it("increases the pc by 2", () => {
-        expect(chip8_1.pc).toEqual(initState.pc + 2);
-      });
 
       it("draws a pixel at coords 0 0 (first call)", () => {
         expect(chip8_1.display[h.to1D(0, 0)]).toEqual(1);

@@ -103,82 +103,69 @@ describe("Chip8", () => {
   });
 
   describe("decode", () => {
-    let spyCls,
-      spyldI,
-      spyLd,
-      spyDrw,
-      spyAdd,
-      jpSpy,
-      rndSpy,
-      seSpy,
-      callSpy,
-      retSpy,
-      sneSpy,
-      addIVxSpy;
-
-    beforeAll(() => {
-      spyCls = jest.spyOn(chip, "cls");
-      spyldI = jest.spyOn(chip, "ldI");
-      spyLd = jest.spyOn(chip, "ld");
-      spyDrw = jest.spyOn(chip, "drw");
-      spyAdd = jest.spyOn(chip, "add");
-      jpSpy = jest.spyOn(chip, "jp");
-      rndSpy = jest.spyOn(chip, "rnd");
-      seSpy = jest.spyOn(chip, "se");
-      callSpy = jest.spyOn(chip, "call");
-      retSpy = jest.spyOn(chip, "ret");
-      sneSpy = jest.spyOn(chip, "sne");
-      addIVxSpy = jest.spyOn(chip, "addIVx");
-    });
-
     afterEach(() => {
-      jest.resetAllMocks();
+      jest.restoreAllMocks();
     });
 
     it("decode 00E0 correctly", () => {
+      const clsSpy = jest.spyOn(chip, "cls");
+
       chip.decode(afterResetState, 0x00e0);
-      expect(spyCls).toBeCalled();
+      expect(clsSpy).toBeCalled();
     });
 
     it("decode 00EE correctly", () => {
+      const retSpy = jest.spyOn(chip, "ret");
       chip.decode(afterResetState, 0x00ee);
       expect(retSpy).toBeCalled();
     });
 
     it("decode 1nnn correctly", () => {
+      const jpSpy = jest.spyOn(chip, "jp");
+
       chip.decode(afterResetState, 0x1228);
       expect(jpSpy).toBeCalled();
     });
 
     it("decode 2nnn correctly", () => {
+      const callSpy = jest.spyOn(chip, "call");
+
       chip.decode(afterResetState, 0x23e6);
       expect(callSpy).toBeCalled();
     });
 
     it("decode 4xkk correctly", () => {
+      const sneSpy = jest.spyOn(chip, "sne");
+
       chip.decode(afterResetState, 0x4470);
       expect(sneSpy).toHaveBeenCalledWith(expect.any(chip.Chip8), 0x4, 0x70);
     });
 
     it("decode Annn correctly", () => {
+      const ldISpy = jest.spyOn(chip, "ldI");
+
       chip.decode(afterResetState, 0xa22a);
-      expect(spyldI).toHaveBeenCalledWith(expect.any(chip.Chip8), 0x22a);
+      expect(ldISpy).toHaveBeenCalledWith(expect.any(chip.Chip8), 0x22a);
 
       chip.decode(afterResetState, 0xa239);
-      expect(spyldI).toHaveBeenCalledWith(expect.any(chip.Chip8), 0x239);
+      expect(ldISpy).toHaveBeenCalledWith(expect.any(chip.Chip8), 0x239);
     });
 
     it("decode 6xkk correctly", () => {
+      const ldSpy = jest.spyOn(chip, "ld");
+
       chip.decode(afterResetState, 0x600c);
-      expect(spyLd).toHaveBeenCalledWith(expect.any(chip.Chip8), 0x0, 0xc);
+      expect(ldSpy).toHaveBeenCalledWith(expect.any(chip.Chip8), 0x0, 0xc);
 
       chip.decode(afterResetState, 0x6108);
-      expect(spyLd).toHaveBeenCalledWith(expect.any(chip.Chip8), 0x1, 0x8);
+      expect(ldSpy).toHaveBeenCalledWith(expect.any(chip.Chip8), 0x1, 0x8);
     });
 
     it("decode Dxyn correctly", () => {
+      const drwSpy = jest.spyOn(chip, "drw");
+
       chip.decode(afterResetState, 0xd01f);
-      expect(spyDrw).toHaveBeenCalledWith(
+      expect(drwSpy).toHaveBeenCalledWith(
         expect.any(chip.Chip8),
         0x0,
         0x1,
@@ -187,21 +174,28 @@ describe("Chip8", () => {
     });
 
     it("decode 7xkk correctly", () => {
+      const addSpy = jest.spyOn(chip, "add");
+
       chip.decode(afterResetState, 0x7009);
-      expect(spyAdd).toHaveBeenCalledWith(expect.any(chip.Chip8), 0x0, 0x9);
+      expect(addSpy).toHaveBeenCalledWith(expect.any(chip.Chip8), 0x0, 0x9);
     });
 
     it("decode c201 correctly", () => {
+      const rndSpy = jest.spyOn(chip, "rnd");
       chip.decode(afterResetState, 0xc201);
       expect(rndSpy).toHaveBeenCalledWith(expect.any(chip.Chip8), 0x2, 0x1);
     });
 
     it("decode 3201 correctly", () => {
+      const seSpy = jest.spyOn(chip, "se");
+
       chip.decode(afterResetState, 0x3201);
       expect(seSpy).toHaveBeenCalledWith(expect.any(chip.Chip8), 0x2, 0x1);
     });
 
     it("decode fx1e correctly", () => {
+      const addIVxSpy = jest.spyOn(chip, "addIVx");
+
       chip.decode(afterResetState, 0xf41e);
       expect(addIVxSpy).toHaveBeenCalledWith(expect.any(chip.Chip8), 0x4);
     });
@@ -211,12 +205,26 @@ describe("Chip8", () => {
         "Illegal opcode"
       );
     });
+
+    it("increases PC by 2", () => {
+      const clsSpy = jest.spyOn(chip, "cls");
+      const chip2 = chip.decode(afterResetState, 0x00e0);
+      expect(chip2.pc).toEqual(afterResetState.pc + 2);
+    });
   });
 
   describe("cycle", () => {
-    it("calls decode with the correct opcode", () => {
-      decodeSpy = jest.spyOn(chip, "decode");
+    let decodeSpy;
 
+    beforeAll(() => {
+      decodeSpy = jest.spyOn(chip, "decode");
+    });
+
+    afterAll(() => {
+      jest.restoreAllMocks();
+    });
+
+    it("calls decode with the correct opcode", () => {
       let chip8 = afterResetState;
       const pc = chip8.pc;
       chip8 = chip.setMemory(afterResetState, pc + 0x000, 0x12);
