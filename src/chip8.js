@@ -206,6 +206,11 @@ function drw(chip8, x, y, byte) {
   return chip8;
 }
 
+function ldDTVx(chip8, x) {
+  chip8.delayTimer = chip8.v[x];
+  return chip8;
+}
+
 function addIVx(chip8, x) {
   chip8.i += chip8.v[x];
   return chip8;
@@ -317,11 +322,16 @@ function decode(chip, opcode, logger) {
       break;
     case 0xf:
       {
+        // Fx15 - LD DT, Vx
+        if (c === 0x1 && d === 0x5) {
+          const x = b;
+          if (logger) logger.log(`Fx15 - LD DT, Vx, Vx=${x.toString(16)}`);
+          return module.exports.ldDTVx(chip, x);
+        }
         // Fx1E - ADD I, Vx
         if (c === 0x1 && d === 0xe) {
           const x = b;
           if (logger) logger.log(`Fx1E - ADD I, Vx=${x.toString(16)}`);
-
           return module.exports.addIVx(chip, x);
         }
       }
@@ -381,5 +391,6 @@ module.exports = {
   jpV0: clone(jpV0),
   rnd: clone(rnd),
   drw: clone(drw),
+  ldDTVx: clone(ldDTVx),
   addIVx: clone(addIVx)
 };

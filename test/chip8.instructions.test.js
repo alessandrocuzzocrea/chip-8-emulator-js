@@ -376,11 +376,21 @@ describe("opcodes", () => {
       });
     });
   });
+
   // Ex9E - SKP Vx
   // ExA1 - SKNP Vx
   // Fx07 - LD Vx, DT
   // Fx0A - LD Vx, K
-  // Fx15 - LD DT, Vx
+
+  describe("LD DT, Vx - Fx15", () => {
+    it("sets delay timer = Vx", () => {
+      const chip8 = chip.setV(initState, 0, 0x1);
+      const afterOp = chip.ldDTVx(chip8, 0);
+      expect(afterOp.delayTimer).not.toEqual(initState.delayTimer);
+      expect(afterOp.delayTimer).toEqual(0x1);
+    });
+  });
+
   // Fx18 - LD ST, Vx
 
   describe("ADD I, Vx - Fx1E", () => {
