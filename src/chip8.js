@@ -235,10 +235,10 @@ function addIVx(chip8, x) {
 }
 
 function decode(chip, opcode, logger) {
-  const a = (opcode & 0b1111000000000000) >> 12;
-  const b = (opcode & 0b0000111100000000) >> 8;
-  const c = (opcode & 0b0000000011110000) >> 4;
-  const d = (opcode & 0b0000000000001111) >> 0;
+  const a = (opcode >> 12) & 0xf;
+  const b = (opcode >> 8) & 0xf;
+  const c = (opcode >> 4) & 0xf;
+  const d = opcode & 0xf;
 
   //0 Group
   switch (a) {
