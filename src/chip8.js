@@ -302,6 +302,16 @@ function decode(chip, opcode, keyboard, logger) {
         );
       return module.exports.ld(chip, vx, byte);
     }
+    case 0x8: {
+      // "8xy0 - LD Vx, Vy"
+      const vx = b;
+      const vy = c;
+      if (logger)
+        logger.log(
+          `8xy0 - LD Vx, Vy: Vx=${vx.toString(16)}, Vy=${vy.toString(16)}`
+        );
+      return module.exports.ldXY(chip, vx, vy);
+    }
     case 0x7: {
       // "7xkk - ADD Vx, byte"
       const vx = b;
