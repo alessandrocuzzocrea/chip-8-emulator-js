@@ -54,6 +54,11 @@ function setMemory(chip8, addr, val) {
   return chip8;
 }
 
+function setDelayTimer(chip8, val) {
+  chip8.delayTimer = val;
+  return chip8;
+}
+
 function cls(chip8) {
   chip8.display = Array(64 * 32).fill(0);
   return chip8;
@@ -216,6 +221,11 @@ function sknp(chip8, x, keys) {
   return chip8;
 }
 
+function ldVxDT(chip8, x) {
+  chip8.v[x] = chip8.delayTimer;
+  return chip8;
+}
+
 function ldDTVx(chip8, x) {
   chip8.delayTimer = chip8.v[x];
   return chip8;
@@ -350,6 +360,13 @@ function decode(chip, opcode, keyboard, logger) {
       break;
     case 0xf:
       {
+        // Fx07 - LD Vx, DT
+        if (c === 0x0 && d === 0x7) {
+          const x = b;
+          if (logger) logger.log(`Fx07 - LD Vx, DT, Vx=${x.toString(16)}`);
+          return module.exports.ldVxDT(chip, x);
+        }
+
         // Fx15 - LD DT, Vx
         if (c === 0x1 && d === 0x5) {
           const x = b;
@@ -393,6 +410,7 @@ module.exports = {
   setV: clone(setV),
   setI: clone(setI),
   setMemory: clone(setMemory),
+  setDelayTimer: clone(setDelayTimer),
   decode: clone(decode),
   cycle: cycle,
   loadRom: clone(loadRom),
@@ -421,6 +439,7 @@ module.exports = {
   drw: clone(drw),
   skp: clone(skp),
   sknp: clone(sknp),
+  ldVxDT: clone(ldVxDT),
   ldDTVx: clone(ldDTVx),
   addIVx: clone(addIVx)
 };

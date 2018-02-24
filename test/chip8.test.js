@@ -102,6 +102,15 @@ describe("Chip8", () => {
     });
   });
 
+  describe("setDelayTimer", () => {
+    it("sets the delayTimer to value v", () => {
+      const v = 0xff;
+      const chip8 = chip.setDelayTimer(afterResetState, v);
+      expect(chip8.delayTimer).toEqual(v);
+      expect(chip8.delayTimer).not.toEqual(afterResetState.delayTimer);
+    });
+  });
+
   describe("decode", () => {
     afterEach(() => {
       jest.restoreAllMocks();
@@ -215,6 +224,13 @@ describe("Chip8", () => {
         0x7,
         keyboard.getKeys()
       );
+    });
+
+    it("decode fx07", () => {
+      const ldVxDTSpy = jest.spyOn(chip, "ldVxDT");
+
+      chip.decode(afterResetState, 0xf607);
+      expect(ldVxDTSpy).toHaveBeenCalledWith(expect.any(chip.Chip8), 0x6);
     });
 
     it("decode fx15", () => {

@@ -416,7 +416,13 @@ describe("opcodes", () => {
     });
   });
 
-  // Fx07 - LD Vx, DT
+  describe("LD Vx, DT - Fx07", () => {
+    const chip8 = chip.setDelayTimer(initState, 0x1);
+    const afterOp = chip.ldVxDT(chip8, 0);
+    expect(afterOp.v[0]).toEqual(0x1);
+    expect(afterOp.v[0]).not.toEqual(initState.v[0]);
+  });
+
   // Fx0A - LD Vx, K
 
   describe("LD DT, Vx - Fx15", () => {
