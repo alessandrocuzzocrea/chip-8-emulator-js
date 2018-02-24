@@ -157,6 +157,13 @@ describe("Chip8", () => {
       expect(ldXYSpy).toHaveBeenCalledWith(expect.any(chip.Chip8), 0xc, 0x1);
     });
 
+    it("decodes 9xy0", () => {
+      const sneXYSpy = jest.spyOn(chip, "sneXY");
+
+      chip.decode(afterResetState, 0x91c0);
+      expect(sneXYSpy).toHaveBeenCalledWith(expect.any(chip.Chip8), 0x1, 0xc);
+    });
+
     it("decodes Annn", () => {
       const ldISpy = jest.spyOn(chip, "ldI");
 
