@@ -206,6 +206,11 @@ function drw(chip8, x, y, byte) {
   return chip8;
 }
 
+function sknp(chip8, x, keys) {
+  if (keys[chip8.v[x]] === false) chip8.pc += 2;
+  return chip8;
+}
+
 function ldDTVx(chip8, x) {
   chip8.delayTimer = chip8.v[x];
   return chip8;
@@ -216,7 +221,7 @@ function addIVx(chip8, x) {
   return chip8;
 }
 
-function decode(chip, opcode, logger) {
+function decode(chip, opcode, keyboard, logger) {
   const a = (opcode >> 12) & 0xf;
   const b = (opcode >> 8) & 0xf;
   const c = (opcode >> 4) & 0xf;
@@ -320,6 +325,16 @@ function decode(chip, opcode, logger) {
         return module.exports.rnd(chip, x, byte);
       }
       break;
+    case 0xe:
+      {
+        // ExA1 - SKNP Vx
+        if (c === 0xa && d === 0x1) {
+          const x = b;
+          if (logger) logger.log(`ExA1 - SKNP Vx, Vx=${x.toString(16)}`);
+          return module.exports.sknp(chip, x, keyboard.getKeys());
+        }
+      }
+      break;
     case 0xf:
       {
         // Fx15 - LD DT, Vx
@@ -343,7 +358,7 @@ function decode(chip, opcode, logger) {
   throw new Error(`Illegal opcode: ${opcode.toString(16)}`);
 }
 
-function cycle(chip, logger) {
+function cycle(chip, keyboard, logger) {
   const { pc, memory } = chip;
   const opcode = (memory[pc] << 8) | memory[pc + 1];
   const args = Array.from(arguments);
@@ -391,6 +406,7 @@ module.exports = {
   jpV0: clone(jpV0),
   rnd: clone(rnd),
   drw: clone(drw),
+  sknp: clone(sknp),
   ldDTVx: clone(ldDTVx),
   addIVx: clone(addIVx)
 };

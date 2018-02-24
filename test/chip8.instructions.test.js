@@ -378,7 +378,25 @@ describe("opcodes", () => {
   });
 
   // Ex9E - SKP Vx
-  // ExA1 - SKNP Vx
+
+  describe("SKNP Vx - ExA1", () => {
+    it("skips next instruction if key with the value of Vx is not pressed", () => {
+      const keyboard = require("../src/keyboard");
+      keyboard.init();
+
+      const afterOp = chip.sknp(initState, 0, keyboard.getKeys());
+      expect(afterOp.pc).toEqual(initState.pc + 2);
+    });
+
+    it("doesn't skip next instruction if key with the value of Vx is pressed", () => {
+      const keyboard = require("../src/keyboard");
+      keyboard.init();
+      keyboard.setKey("0", true);
+      const afterOp = chip.sknp(initState, 0, keyboard.getKeys());
+      expect(afterOp.pc).toEqual(initState.pc);
+    });
+  });
+
   // Fx07 - LD Vx, DT
   // Fx0A - LD Vx, K
 

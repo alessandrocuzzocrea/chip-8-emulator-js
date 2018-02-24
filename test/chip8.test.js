@@ -193,6 +193,18 @@ describe("Chip8", () => {
       expect(seSpy).toHaveBeenCalledWith(expect.any(chip.Chip8), 0x2, 0x1);
     });
 
+    it("decode exa1 ", () => {
+      const keyboard = require("../src/keyboard");
+      const sknpSpy = jest.spyOn(chip, "sknp").mockImplementation(chip => chip);
+
+      chip.decode(afterResetState, 0xe7a1, keyboard);
+      expect(sknpSpy).toHaveBeenCalledWith(
+        expect.any(chip.Chip8),
+        0x7,
+        keyboard.getKeys()
+      );
+    });
+
     it("decode fx15", () => {
       const ldDTVxSpy = jest.spyOn(chip, "ldDTVx");
 
