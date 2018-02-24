@@ -19,5 +19,23 @@ module.exports = {
     0xF0, 0x80, 0xF0, 0x80, 0x80, //F
   ],
   screenWidth: 64,
-  screenHeight: 32
+  screenHeight: 32,
+  keys: {
+    1: '1',
+    2: '2',
+    3: '3',
+    c: '4',
+    4: 'q',
+    5: 'w',
+    6: 'e',
+    d: 'r',
+    7: 'a',
+    8: 's',
+    9: 'd',
+    e: 'f',
+    a: 'z',
+    0: 'x',
+    b: 'c',
+    f: 'v'
+  }
 };

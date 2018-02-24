@@ -1,5 +1,6 @@
 const chip8 = require("./chip8");
 const renderer = require("./renderer");
+const keyboard = require("./keyboard");
 const logger = require("./logger");
 
 let chip;
@@ -10,9 +11,11 @@ function init() {
   pre = document.querySelector("pre#emulator");
   romSelect = document.querySelector("select#rom-select");
   romSelect.onchange = e => loadRom(event.target.value);
+  keyboard.init();
 }
 
 function reset() {
+  keyboard.reset();
   logger.reset();
   return chip8.loadCharset(chip8.reset(new chip8.Chip8()));
 }
@@ -31,7 +34,7 @@ function loadRom(name) {
 
 function run() {
   function cycle() {
-    chip = chip8.cycle(chip, logger);
+    chip = chip8.cycle(chip, keyboard, logger);
     pre.innerHTML = renderer.formatDisplay(chip);
     window.requestAnimationFrame(cycle);
     logger.printLast();
