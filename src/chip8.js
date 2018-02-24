@@ -206,6 +206,11 @@ function drw(chip8, x, y, byte) {
   return chip8;
 }
 
+function skp(chip8, x, keys) {
+  if (keys[chip8.v[x]] === true) chip8.pc += 2;
+  return chip8;
+}
+
 function sknp(chip8, x, keys) {
   if (keys[chip8.v[x]] === false) chip8.pc += 2;
   return chip8;
@@ -327,6 +332,14 @@ function decode(chip, opcode, keyboard, logger) {
       break;
     case 0xe:
       {
+        // Ex9E - SKP Vx
+        if (c === 0x9 && d === 0xe) {
+          const x = b;
+          if (logger) logger.log(`Ex9E - SKP Vx, Vx=${x.toString(16)}`);
+          return module.exports.skp(chip, x, keyboard.getKeys());
+        }
+      }
+      {
         // ExA1 - SKNP Vx
         if (c === 0xa && d === 0x1) {
           const x = b;
@@ -406,6 +419,7 @@ module.exports = {
   jpV0: clone(jpV0),
   rnd: clone(rnd),
   drw: clone(drw),
+  skp: clone(skp),
   sknp: clone(sknp),
   ldDTVx: clone(ldDTVx),
   addIVx: clone(addIVx)
