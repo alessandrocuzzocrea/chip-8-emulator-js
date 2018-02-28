@@ -236,6 +236,11 @@ function addIVx(chip8, x) {
   return chip8;
 }
 
+function ldIndirectIVx(chip8, x) {
+  _.range(x + 1).forEach(v => (chip8.memory[chip8.i + v] = chip8.v[v]));
+  return chip8;
+}
+
 function decode(chip, opcode, keyboard, logger) {
   const a = (opcode >> 12) & 0xf;
   const b = (opcode >> 8) & 0xf;
@@ -399,6 +404,12 @@ function decode(chip, opcode, keyboard, logger) {
           if (logger) logger.log(`Fx1E - ADD I, Vx=${x.toString(16)}`);
           return module.exports.addIVx(chip, x);
         }
+        // Fx55
+        if (c === 0x5 && d === 0x5) {
+          const x = b;
+          if (logger) logger.log(`Fx55, Vx=${x.toString(16)}`);
+          return module.exports.ldIndirectIVx(chip, x);
+        }
       }
       break;
     default:
@@ -461,5 +472,6 @@ module.exports = {
   sknp: clone(sknp),
   ldVxDT: clone(ldVxDT),
   ldDTVx: clone(ldDTVx),
-  addIVx: clone(addIVx)
+  addIVx: clone(addIVx),
+  ldIndirectIVx: clone(ldIndirectIVx)
 };

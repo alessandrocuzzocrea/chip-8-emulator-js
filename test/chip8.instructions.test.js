@@ -1,3 +1,4 @@
+const _ = require("lodash");
 const c = require("../src/consts");
 const h = require("../src/helpers");
 const chip = require("../src/chip8");
@@ -448,6 +449,25 @@ describe("opcodes", () => {
 
   // Fx29 - LD F, Vx
   // Fx33 - LD B, Vx
-  // Fx55 - LD [I], Vx
+
+  describe("LD [I], Vx - Fx55", () => {
+    it("Store registers V0 through Vx in memory starting at location I", () => {
+      let chip8 = chip.setV(initState, 0, 0);
+      const range = _.range(16);
+      range.forEach(v => {
+        chip8 = chip.setV(chip8, v, v + 1);
+      });
+
+      chip8 = chip.ldIndirectIVx(chip8, 0xf);
+
+      range.forEach(v => {
+        expect(chip8.memory[chip8.i + v]).toEqual(v + 1);
+        expect(chip8.memory[chip8.i + v]).not.toEqual(
+          initState.v[initState.memory[initState.i + v]]
+        );
+      });
+    });
+  });
+
   // Fx65 - LD Vx, [I]
 });

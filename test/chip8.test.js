@@ -261,6 +261,16 @@ describe("Chip8", () => {
       expect(addIVxSpy).toHaveBeenCalledWith(expect.any(chip.Chip8), 0x4);
     });
 
+    it("decodes fx55", () => {
+      const ldIndirectIVxSpy = jest.spyOn(chip, "ldIndirectIVx");
+
+      chip.decode(afterResetState, 0xf255);
+      expect(ldIndirectIVxSpy).toHaveBeenCalledWith(
+        expect.any(chip.Chip8),
+        0x2
+      );
+    });
+
     it("throws an exception if opcode is illegal", () => {
       expect(() => chip.decode(afterResetState, 0x5001)).toThrowError(
         "Illegal opcode"
