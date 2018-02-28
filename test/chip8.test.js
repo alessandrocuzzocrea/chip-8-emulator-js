@@ -271,6 +271,13 @@ describe("Chip8", () => {
       );
     });
 
+    it("decodes fx33", () => {
+      const ldBSpy = jest.spyOn(chip, "ldB");
+
+      chip.decode(afterResetState, 0xfa33);
+      expect(ldBSpy).toHaveBeenCalledWith(expect.any(chip.Chip8), 0xa);
+    });
+
     it("throws an exception if opcode is illegal", () => {
       expect(() => chip.decode(afterResetState, 0x5001)).toThrowError(
         "Illegal opcode"

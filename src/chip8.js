@@ -241,6 +241,15 @@ function ldIndirectIVx(chip8, x) {
   return chip8;
 }
 
+function ldB(chip8, x) {
+  const number = chip8.v[x];
+  h.toBCD(number).forEach((v, i) => {
+    chip8.memory[chip8.i + i] = v;
+  });
+
+  return chip8;
+}
+
 function decode(chip, opcode, keyboard, logger) {
   const a = (opcode >> 12) & 0xf;
   const b = (opcode >> 8) & 0xf;
@@ -404,6 +413,12 @@ function decode(chip, opcode, keyboard, logger) {
           if (logger) logger.log(`Fx1E - ADD I, Vx=${x.toString(16)}`);
           return module.exports.addIVx(chip, x);
         }
+        // Fx33
+        if (c === 0x3 && d === 0x3) {
+          const x = b;
+          if (logger) logger.log(`Fx33, Vx=${x.toString(16)}`);
+          return module.exports.ldB(chip, x);
+        }
         // Fx55
         if (c === 0x5 && d === 0x5) {
           const x = b;
@@ -473,5 +488,6 @@ module.exports = {
   ldVxDT: clone(ldVxDT),
   ldDTVx: clone(ldDTVx),
   addIVx: clone(addIVx),
-  ldIndirectIVx: clone(ldIndirectIVx)
+  ldIndirectIVx: clone(ldIndirectIVx),
+  ldB: clone(ldB)
 };

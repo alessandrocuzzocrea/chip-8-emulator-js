@@ -447,11 +447,29 @@ describe("opcodes", () => {
     });
   });
 
-  // Fx29 - LD F, Vx
-  // Fx33 - LD B, Vx
+  describe("LD B, Vx - Fx33", () => {
+    it("stores BCD representation of Vx in memory locations I, I+1, and I+2", () => {
+      let chip8 = chip.setV(initState, 0, 111);
+      chip8 = chip.ldB(chip8, 0);
+
+      expect(chip8.memory[chip8.i + 0]).toEqual(1);
+      expect(chip8.memory[chip8.i + 1]).toEqual(1);
+      expect(chip8.memory[chip8.i + 2]).toEqual(1);
+
+      expect(chip8.memory[chip8.i + 0]).not.toEqual(
+        initState.memory[initState.i + 0]
+      );
+      expect(chip8.memory[chip8.i + 1]).not.toEqual(
+        initState.memory[initState.i + 1]
+      );
+      expect(chip8.memory[chip8.i + 2]).not.toEqual(
+        initState.memory[initState.i + 2]
+      );
+    });
+  });
 
   describe("LD [I], Vx - Fx55", () => {
-    it("Store registers V0 through Vx in memory starting at location I", () => {
+    it("stores registers V0 through Vx in memory starting at location I", () => {
       let chip8 = chip.setV(initState, 0, 0);
       const range = _.range(16);
       range.forEach(v => {
