@@ -10,3 +10,42 @@ describe("to1D", () => {
     expect(helpers.to1D(63, 31)).toEqual(2047);
   });
 });
+
+describe("toBCD", () => {
+  it("convert number to BCD", () => {
+    //test 1
+    let number = 0;
+    let res = helpers.toBCD(number);
+    expect(res[0]).toEqual(0);
+    expect(res[1]).toEqual(0);
+    expect(res[2]).toEqual(0);
+
+    //test 2
+    number = 1;
+    res = helpers.toBCD(number);
+    expect(res[0]).toEqual(0);
+    expect(res[1]).toEqual(0);
+    expect(res[2]).toEqual(1);
+
+    //test 3
+    number = 10;
+    res = helpers.toBCD(number);
+    expect(res[0]).toEqual(0);
+    expect(res[1]).toEqual(1);
+    expect(res[2]).toEqual(0);
+
+    //test 4
+    number = 100;
+    res = helpers.toBCD(number);
+    expect(res[0]).toEqual(1);
+    expect(res[1]).toEqual(0);
+    expect(res[2]).toEqual(0);
+
+    //test 5
+    number = 111;
+    res = helpers.toBCD(number);
+    expect(res[0]).toEqual(1);
+    expect(res[1]).toEqual(1);
+    expect(res[2]).toEqual(1);
+  });
+});
