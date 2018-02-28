@@ -271,6 +271,16 @@ describe("Chip8", () => {
       );
     });
 
+    it("decodes fx65", () => {
+      const ldVxIndirectISpy = jest.spyOn(chip, "ldVxIndirectI");
+
+      chip.decode(afterResetState, 0xf265);
+      expect(ldVxIndirectISpy).toHaveBeenCalledWith(
+        expect.any(chip.Chip8),
+        0x2
+      );
+    });
+
     it("decodes fx33", () => {
       const ldBSpy = jest.spyOn(chip, "ldB");
 

@@ -487,5 +487,20 @@ describe("opcodes", () => {
     });
   });
 
-  // Fx65 - LD Vx, [I]
+  describe("LD Vx, [I] - Fx65", () => {
+    it("reads registers V0 through Vx from memory starting at location I", () => {
+      let chip8 = chip.setMemory(initState, 0, 0);
+      const range = _.range(16);
+      range.forEach(v => {
+        chip8 = chip.setMemory(chip8, chip8.i + v, v + 1);
+      });
+
+      chip8 = chip.ldVxIndirectI(chip8, 0xf);
+
+      range.forEach(v => {
+        expect(chip8.v[v]).toEqual(v + 1);
+        expect(chip8.v[v]).not.toEqual(initState.v[v]);
+      });
+    });
+  });
 });
