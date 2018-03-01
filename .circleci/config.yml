@@ -35,4 +35,4 @@ jobs:
             npm run coverage
             ./cc-test-reporter after-build --exit-code $?
 
-      # - run: npm run coveralls
+      - run: npm run coveralls

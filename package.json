@@ -9,7 +9,9 @@
     "test": "jest --watch",
     "test:debug":
       "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand",
-    "coverage": "jest --coverage"
+    "coverage": "jest --coverage",
+    "coveralls":
+      "./node_modules/coveralls/bin/coveralls.js < coverage/lcov.info"
   },
   "repository": {
     "type": "git",
@@ -29,6 +31,7 @@
     "jest": "^22.1.4",
     "lodash": "^4.17.5",
     "webpack": "^3.10.0",
-    "webpack-dev-server": "^2.11.1"
+    "webpack-dev-server": "^2.11.1",
+    "coveralls": "^3.0.0"
   }
 }
