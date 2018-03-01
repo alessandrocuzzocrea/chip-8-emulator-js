@@ -17323,8 +17323,16 @@ function getSelectedRom() {
   return romSelect.value;
 }
 
+function getRomPath(name) {
+  let path = `/roms/${name}`;
+  if (true) {
+    path = "https://alessandrocuzzocrea.github.io/chip-8-emulator-js" + path;
+  }
+  return path;
+}
+
 function loadRom(name) {
-  return fetch(`/roms/${name}`)
+  return fetch(getRomPath(name))
     .then(res => res.arrayBuffer())
     .then(data => {
       chip = chip8.loadRom(reset(), new Uint8Array(data));
