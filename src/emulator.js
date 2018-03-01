@@ -10,6 +10,9 @@ let romSelect;
 //debug
 let pcDiv,
   iDiv,
+  spDiv,
+  dtDiv,
+  stDiv,
   v0Div,
   v1Div,
   v2Div,
@@ -34,6 +37,9 @@ function init() {
 
   pcDiv = document.querySelector("#pc");
   iDiv = document.querySelector("#i");
+  spDiv = document.querySelector("#sp");
+  dtDiv = document.querySelector("#dt");
+  stDiv = document.querySelector("#st");
   v0Div = document.querySelector("#v0");
   v1Div = document.querySelector("#v1");
   v2Div = document.querySelector("#v2");
@@ -98,6 +104,9 @@ function formatDebugString(str, digits, val) {
 function printDebug(chip) {
   pcDiv.innerHTML = formatDebugString("PC", 4, chip.pc);
   iDiv.innerHTML = formatDebugString("I", 4, chip.i);
+  spDiv.innerHTML = formatDebugString("SP", 2, chip.stack.length);
+  dtDiv.innerHTML = formatDebugString("DT", 2, chip.delayTimer);
+  stDiv.innerHTML = formatDebugString("ST", 2, chip.soundTimer);
 
   v0Div.innerHTML = formatDebugString("V0", 2, chip.v[0]);
   v1Div.innerHTML = formatDebugString("V1", 2, chip.v[1]);
