@@ -38,6 +38,7 @@ function run() {
     pre.innerHTML = renderer.formatDisplay(chip);
     window.requestAnimationFrame(cycle);
     logger.printLast();
+    chip.delayTimer = Math.max(0, chip.delayTimer - 1);
   }
   window.requestAnimationFrame(cycle);
 }
