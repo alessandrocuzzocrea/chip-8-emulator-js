@@ -255,6 +255,11 @@ function ldVxIndirectI(chip8, x) {
   return chip8;
 }
 
+function ldFVx(chip8, x) {
+  chip8.i = consts.charOffset[chip8.v[x]];
+  return chip8;
+}
+
 function decode(chip, opcode, keyboard, logger) {
   const a = (opcode >> 12) & 0xf;
   const b = (opcode >> 8) & 0xf;
@@ -501,5 +506,6 @@ module.exports = {
   addIVx: clone(addIVx),
   ldIndirectIVx: clone(ldIndirectIVx),
   ldB: clone(ldB),
-  ldVxIndirectI: clone(ldVxIndirectI)
+  ldVxIndirectI: clone(ldVxIndirectI),
+  ldFVx: clone(ldFVx)
 };
