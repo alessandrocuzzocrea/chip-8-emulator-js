@@ -6,6 +6,7 @@
   "scripts": {
     "start": "webpack-dev-server",
     "build": "webpack",
+    "build:ghpages": "webpack --env.GHPAGES",
     "test": "jest --watch",
     "test:debug":
       "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand",
