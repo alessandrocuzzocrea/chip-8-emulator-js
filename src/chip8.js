@@ -59,6 +59,16 @@ function setDelayTimer(chip8, val) {
   return chip8;
 }
 
+function toJSON(chip8) {
+  return JSON.stringify(chip8);
+}
+
+function fromJSON(chip8) {
+  const loadedChip = JSON.parse(chip8);
+  loadedChip.v = Uint8Array.from(_.values(loadedChip.v));
+  return loadedChip;
+}
+
 function cls(chip8) {
   chip8.display = Array(64 * 32).fill(0);
   return chip8;
@@ -518,6 +528,8 @@ module.exports = {
   setI: clone(setI),
   setMemory: clone(setMemory),
   setDelayTimer: clone(setDelayTimer),
+  toJSON: toJSON,
+  fromJSON: fromJSON,
   decode: clone(decode),
   cycle: cycle,
   loadRom: clone(loadRom),
