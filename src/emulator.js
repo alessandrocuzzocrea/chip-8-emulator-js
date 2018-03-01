@@ -4,7 +4,7 @@ const keyboard = require("./keyboard");
 const logger = require("./logger");
 
 let chip;
-let pre;
+let canvas;
 let romSelect;
 
 //debug
@@ -28,7 +28,7 @@ let pcDiv,
   vfDiv;
 
 function init() {
-  pre = document.querySelector("pre#emulator");
+  canvas = document.querySelector("#emulator");
   romSelect = document.querySelector("select#rom-select");
   romSelect.onchange = e => loadRom(event.target.value);
 
@@ -120,7 +120,7 @@ function printDebug(chip) {
 function run() {
   function cycle() {
     chip = chip8.cycle(chip, keyboard, logger);
-    pre.innerHTML = renderer.formatDisplay(chip);
+    renderer.render(chip, canvas);
     window.requestAnimationFrame(cycle);
     logger.printLast();
     printDebug(chip);
