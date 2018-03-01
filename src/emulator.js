@@ -88,33 +88,33 @@ function loadRom(name) {
     });
 }
 
-function formatDebugString(str, val) {
+function formatDebugString(str, digits, val) {
   return `${str}: 0x${val
     .toString(16)
-    .padStart(4, "0")
+    .padStart(digits, "0")
     .toUpperCase()}`;
 }
 
 function printDebug(chip) {
-  pcDiv.innerHTML = formatDebugString("PC", chip.pc);
-  iDiv.innerHTML = formatDebugString("I", chip.i);
+  pcDiv.innerHTML = formatDebugString("PC", 4, chip.pc);
+  iDiv.innerHTML = formatDebugString("I", 4, chip.i);
 
-  v0Div.innerHTML = formatDebugString("V0", chip.v[0]);
-  v1Div.innerHTML = formatDebugString("V1", chip.v[1]);
-  v2Div.innerHTML = formatDebugString("V2", chip.v[2]);
-  v3Div.innerHTML = formatDebugString("V3", chip.v[3]);
-  v4Div.innerHTML = formatDebugString("V4", chip.v[4]);
-  v5Div.innerHTML = formatDebugString("V5", chip.v[5]);
-  v6Div.innerHTML = formatDebugString("V6", chip.v[6]);
-  v7Div.innerHTML = formatDebugString("V7", chip.v[7]);
-  v8Div.innerHTML = formatDebugString("V8", chip.v[8]);
-  v9Div.innerHTML = formatDebugString("V9", chip.v[9]);
-  vaDiv.innerHTML = formatDebugString("VA", chip.v[10]);
-  vbDiv.innerHTML = formatDebugString("VB", chip.v[11]);
-  vcDiv.innerHTML = formatDebugString("VC", chip.v[12]);
-  vdDiv.innerHTML = formatDebugString("VD", chip.v[13]);
-  veDiv.innerHTML = formatDebugString("VE", chip.v[14]);
-  vfDiv.innerHTML = formatDebugString("VF", chip.v[15]);
+  v0Div.innerHTML = formatDebugString("V0", 2, chip.v[0]);
+  v1Div.innerHTML = formatDebugString("V1", 2, chip.v[1]);
+  v2Div.innerHTML = formatDebugString("V2", 2, chip.v[2]);
+  v3Div.innerHTML = formatDebugString("V3", 2, chip.v[3]);
+  v4Div.innerHTML = formatDebugString("V4", 2, chip.v[4]);
+  v5Div.innerHTML = formatDebugString("V5", 2, chip.v[5]);
+  v6Div.innerHTML = formatDebugString("V6", 2, chip.v[6]);
+  v7Div.innerHTML = formatDebugString("V7", 2, chip.v[7]);
+  v8Div.innerHTML = formatDebugString("V8", 2, chip.v[8]);
+  v9Div.innerHTML = formatDebugString("V9", 2, chip.v[9]);
+  vaDiv.innerHTML = formatDebugString("VA", 2, chip.v[10]);
+  vbDiv.innerHTML = formatDebugString("VB", 2, chip.v[11]);
+  vcDiv.innerHTML = formatDebugString("VC", 2, chip.v[12]);
+  vdDiv.innerHTML = formatDebugString("VD", 2, chip.v[13]);
+  veDiv.innerHTML = formatDebugString("VE", 2, chip.v[14]);
+  vfDiv.innerHTML = formatDebugString("VF", 2, chip.v[15]);
 }
 
 function run() {
