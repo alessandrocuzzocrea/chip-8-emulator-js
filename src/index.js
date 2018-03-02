@@ -1,3 +1,5 @@
+import "./style.css";
+
 const emulator = require("./emulator");
 
 emulator.init();
