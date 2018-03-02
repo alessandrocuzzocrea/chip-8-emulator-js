@@ -7,8 +7,21 @@ html {
   box-sizing: inherit;
 }
 
-canvas {
-  border: 1px solid black;
+body {
+  color: #bdc3c7;
+  background-color: #2c3e50;
+  font-family: monospace;
+}
+
+button {
+  color: #bdc3c7;
+  font-family: monospace;
+  background-color: #2c3e50;
+  border: 1px solid #1abc9c;
+}
+
+.current-instruction {
+  background-color: #1abc9c;
 }
 
 .container {
@@ -20,13 +33,20 @@ canvas {
 .controls {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
+  border: 1px solid #1abc9c;
 }
 
 .keyboard {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  border: 1px solid #1abc9c;
 }
 
 .instructions {
   grid-column: span 2;
+  border: 1px solid #1abc9c;
+}
+
+.registers {
+  border: 1px solid #1abc9c;
 }

@@ -7,7 +7,8 @@ let chip;
 let canvas;
 let romSelect;
 
-//debug
+//UI
+let instructionsDiv;
 let pcDiv,
   iDiv,
   spDiv,
@@ -34,6 +35,8 @@ function init() {
   canvas = document.querySelector("#emulator");
   romSelect = document.querySelector("select#rom-select");
   romSelect.onchange = e => loadRom(event.target.value);
+
+  instructionsDiv = document.querySelector(".instructions");
 
   pcDiv = document.querySelector("#pc");
   iDiv = document.querySelector("#i");
@@ -95,13 +98,44 @@ function loadRom(name) {
 }
 
 function formatDebugString(str, digits, val) {
-  return `${str}: 0x${val
+  return `${str}: ${val
     .toString(16)
     .padStart(digits, "0")
     .toUpperCase()}`;
 }
 
-function printDebug(chip) {
+let lastPc = 0;
+function updateUI(chip) {
+  function formatHex(num) {
+    return num
+      .toString(16)
+      .padStart(4, "0")
+      .toUpperCase();
+  }
+
+  // Instructions
+  while (instructionsDiv.firstChild) {
+    instructionsDiv.removeChild(instructionsDiv.firstChild);
+  }
+
+  const currentPc = chip.pc;
+  const lastPcDiff = currentPc - lastPc;
+  if (lastPcDiff >= 14 || lastPcDiff < 0) lastPc = currentPc;
+
+  let pc = Math.max(lastPc - 2, 0);
+  for (let i = 0; i < 20; i++) {
+    const el = document.createElement("div");
+    el.innerHTML = `${formatHex(pc)}| ${chip8.decode2(chip, pc)}`;
+
+    if (pc === currentPc) {
+      el.classList.add("current-instruction");
+    }
+
+    instructionsDiv.appendChild(el);
+    pc += 2;
+  }
+
+  // Registers
   pcDiv.innerHTML = formatDebugString("PC", 4, chip.pc);
   iDiv.innerHTML = formatDebugString("I", 4, chip.i);
   spDiv.innerHTML = formatDebugString("SP", 2, chip.stack.length);
@@ -128,12 +162,15 @@ function printDebug(chip) {
 
 function run() {
   function cycle() {
+    // setTimeout(function() {
+    updateUI(chip);
     chip = chip8.cycle(chip, keyboard, logger);
     renderer.render(chip, canvas);
     window.requestAnimationFrame(cycle);
-    logger.printLast();
-    printDebug(chip);
+    // logger.printLast();
     chip.delayTimer = Math.max(0, chip.delayTimer - 1);
+    // debugger;
+    // }, 100);
   }
   window.requestAnimationFrame(cycle);
 }
