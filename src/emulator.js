@@ -9,6 +9,8 @@ let rom;
 let canvas;
 let romSelect;
 
+let running = true;
+
 function init() {
   canvas = document.querySelector("#emulator");
   romSelect = document.querySelector("select#rom-select");
@@ -27,11 +29,15 @@ function init() {
   loadStateButton.onclick = e =>
     (chip = chip8.fromJSON(window.localStorage.getItem("state")));
 
+  const pauseButton = document.querySelector("#pause");
+  pauseButton.onclick = () => (running = false);
+
   keyboard.init();
   ui.init();
 }
 
 function reset() {
+  running = true;
   ui.reset();
   keyboard.reset();
   logger.reset();
@@ -61,15 +67,12 @@ function loadRom(name) {
 
 function run() {
   function cycle() {
-    // setTimeout(function() {
-    updateUI(chip);
+    window.requestAnimationFrame(cycle);
+    if (!running) return;
+    ui.update(chip);
     chip = chip8.cycle(chip, keyboard, logger);
     renderer.render(chip, canvas);
-    window.requestAnimationFrame(cycle);
-    // logger.printLast();
     chip.delayTimer = Math.max(0, chip.delayTimer - 1);
-    // debugger;
-    // }, 100);
   }
   window.requestAnimationFrame(cycle);
 }
