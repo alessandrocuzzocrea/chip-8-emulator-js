@@ -10,6 +10,7 @@ let canvas;
 let romSelect;
 
 let running = true;
+let reqId = null;
 
 function init() {
   canvas = document.querySelector("#emulator");
@@ -30,17 +31,33 @@ function init() {
     (chip = chip8.fromJSON(window.localStorage.getItem("state")));
 
   const pauseButton = document.querySelector("#pause");
-  pauseButton.onclick = () => (running = false);
+  pauseButton.onclick = () => {
+    running = false;
+    if (reqId) {
+      window.cancelAnimationFrame(reqId);
+      reqId = null;
+    }
+  };
+
+  const stepButton = document.querySelector("#step");
+  stepButton.onclick = () => {
+    if (!running) cycle();
+  };
 
   keyboard.init();
   ui.init();
 }
 
-function reset() {
-  running = true;
+function reset(startRunning = true) {
+  running = startRunning;
+  if (reqId) {
+    window.cancelAnimationFrame(reqId);
+    reqId = null;
+  }
   ui.reset();
   keyboard.reset();
   logger.reset();
+  run();
   return chip8.loadCharset(chip8.reset(new chip8.Chip8()));
 }
 
@@ -65,15 +82,15 @@ function loadRom(name) {
     });
 }
 
+function cycle() {
+  ui.update(chip);
+  chip = chip8.cycle(chip, keyboard, logger);
+  renderer.render(chip, canvas);
+  chip.delayTimer = Math.max(0, chip.delayTimer - 1);
+  if (running) reqId = window.requestAnimationFrame(cycle);
+}
+
 function run() {
-  function cycle() {
-    window.requestAnimationFrame(cycle);
-    if (!running) return;
-    ui.update(chip);
-    chip = chip8.cycle(chip, keyboard, logger);
-    renderer.render(chip, canvas);
-    chip.delayTimer = Math.max(0, chip.delayTimer - 1);
-  }
   window.requestAnimationFrame(cycle);
 }
 
