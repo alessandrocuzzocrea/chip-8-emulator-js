@@ -1,3 +1,5 @@
+$accent-color: #1abc9c;
+
 html {
   box-sizing: border-box;
 }
@@ -17,11 +19,11 @@ button {
   color: #bdc3c7;
   font-family: monospace;
   background-color: #2c3e50;
-  border: 1px solid #1abc9c;
+  border: 1px solid $accent-color;
 }
 
 .current-instruction {
-  background-color: #1abc9c;
+  background-color: $accent-color;
 }
 
 .container {
@@ -33,20 +35,20 @@ button {
 .controls {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
-  border: 1px solid #1abc9c;
+  border: 1px solid $accent-color;
 }
 
 .keyboard {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  border: 1px solid #1abc9c;
+  border: 1px solid $accent-color;
 }
 
 .instructions {
   grid-column: span 2;
-  border: 1px solid #1abc9c;
+  border: 1px solid $accent-color;
 }
 
 .registers {
-  border: 1px solid #1abc9c;
+  border: 1px solid $accent-color;
 }

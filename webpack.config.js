@@ -17,10 +17,17 @@ module.exports = env => {
     module: {
       loaders: [
         {
-          test: /\.css$/,
+          test: /\.scss$/,
           use: ExtractTextPlugin.extract({
-            fallback: "style-loader",
-            use: "css-loader"
+            use: [
+              {
+                loader: "css-loader"
+              },
+              {
+                loader: "sass-loader"
+              }
+            ],
+            fallback: "style-loader"
           })
         }
       ]
