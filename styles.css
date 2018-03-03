@@ -53,4 +53,13 @@ button {
 .registers {
   border: 1px solid #1abc9c; }
 
+.footer {
+  text-align: center;
+  grid-column: span 3; }
+  .footer a {
+    color: #bdc3c7;
+    text-decoration: none; }
+    .footer a:hover {
+      color: #1abc9c; }
+
 /*# sourceMappingURL=styles.css.map*/
