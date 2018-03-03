@@ -5,6 +5,7 @@ const logger = require("./logger");
 const ui = require("./ui");
 
 let chip;
+let rom;
 let canvas;
 let romSelect;
 
@@ -12,6 +13,11 @@ function init() {
   canvas = document.querySelector("#emulator");
   romSelect = document.querySelector("select#rom-select");
   romSelect.onchange = e => loadRom(event.target.value);
+
+  const resetButton = document.querySelector("#reset");
+  resetButton.onclick = e => {
+    chip = chip8.loadRom(reset(), rom);
+  };
 
   const saveStateButton = document.querySelector("#save-state");
   saveStateButton.onclick = e =>
@@ -48,7 +54,8 @@ function loadRom(name) {
   return fetch(getRomPath(name))
     .then(res => res.arrayBuffer())
     .then(data => {
-      chip = chip8.loadRom(reset(), new Uint8Array(data));
+      rom = new Uint8Array(data);
+      chip = chip8.loadRom(reset(), rom);
     });
 }
 
