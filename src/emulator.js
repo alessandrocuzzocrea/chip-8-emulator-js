@@ -44,6 +44,14 @@ function init() {
     if (!running) cycle();
   };
 
+  const continueButton = document.querySelector("#continue");
+  continueButton.onclick = () => {
+    if (!running) {
+      running = true;
+      run();
+    }
+  };
+
   keyboard.init();
   ui.init();
 }
