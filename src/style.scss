@@ -33,14 +33,22 @@ button {
   }
 }
 
-.current-instruction {
-  background-color: $accent-color;
-}
-
 .container {
+  margin: 0 auto;
   display: grid;
+  max-width: 1024px;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 10px;
+}
+
+.header {
+  text-align: center;
+  grid-column: span 3;
+  border: 1px solid $accent-color;
+}
+
+.current-instruction {
+  background-color: $accent-color;
 }
 
 .controls {
