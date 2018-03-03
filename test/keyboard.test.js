@@ -1,4 +1,8 @@
-const _ = require("lodash");
+const every = require("lodash/every");
+const values = require("lodash/values");
+const negate = require("lodash/negate");
+const identity = require("lodash/identity");
+
 const c = require("../src/consts");
 const keyboard = require("../src/keyboard");
 
@@ -8,9 +12,7 @@ describe("keyboard", () => {
   });
 
   it("every button should be initialized to false", () => {
-    expect(_.every(_.values(keyboard.getKeys()), _.negate(_.identity))).toEqual(
-      true
-    );
+    expect(every(values(keyboard.getKeys()), negate(identity))).toEqual(true);
   });
 
   it("should call _onKeyDown on key pressed", () => {

@@ -1,4 +1,5 @@
-const _ = require("lodash");
+const cloneDeep = require("lodash/cloneDeep");
+
 const c = require("./consts");
 
 let keys;
@@ -32,7 +33,7 @@ function reset() {
 }
 
 function getKeys() {
-  return _.cloneDeep(keys);
+  return cloneDeep(keys);
 }
 
 function setKey(key, pressed) {

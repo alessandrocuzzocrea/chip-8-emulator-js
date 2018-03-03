@@ -1,4 +1,5 @@
-const _ = require("lodash");
+const range = require("lodash/range");
+
 const c = require("../src/consts");
 const h = require("../src/helpers");
 const chip = require("../src/chip8");
@@ -471,14 +472,14 @@ describe("opcodes", () => {
   describe("LD [I], Vx - Fx55", () => {
     it("stores registers V0 through Vx in memory starting at location I", () => {
       let chip8 = chip.setV(initState, 0, 0);
-      const range = _.range(16);
-      range.forEach(v => {
+      const r = range(16);
+      r.forEach(v => {
         chip8 = chip.setV(chip8, v, v + 1);
       });
 
       chip8 = chip.ldIndirectIVx(chip8, 0xf);
 
-      range.forEach(v => {
+      r.forEach(v => {
         expect(chip8.memory[chip8.i + v]).toEqual(v + 1);
         expect(chip8.memory[chip8.i + v]).not.toEqual(
           initState.v[initState.memory[initState.i + v]]
@@ -490,14 +491,14 @@ describe("opcodes", () => {
   describe("LD Vx, [I] - Fx65", () => {
     it("reads registers V0 through Vx from memory starting at location I", () => {
       let chip8 = chip.setMemory(initState, 0, 0);
-      const range = _.range(16);
-      range.forEach(v => {
+      const r = range(16);
+      r.forEach(v => {
         chip8 = chip.setMemory(chip8, chip8.i + v, v + 1);
       });
 
       chip8 = chip.ldVxIndirectI(chip8, 0xf);
 
-      range.forEach(v => {
+      r.forEach(v => {
         expect(chip8.v[v]).toEqual(v + 1);
         expect(chip8.v[v]).not.toEqual(initState.v[v]);
       });

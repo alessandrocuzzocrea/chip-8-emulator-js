@@ -1,4 +1,7 @@
-const _ = require("lodash");
+const cloneDeep = require("lodash/cloneDeep");
+const values = require("lodash/values");
+const range = require("lodash/range");
+
 const consts = require("./consts");
 const h = require("./helpers");
 
@@ -15,7 +18,7 @@ function Chip8() {
 
 function clone(fn) {
   return function(chip8, ...args) {
-    const newChip8 = _.cloneDeep(chip8);
+    const newChip8 = cloneDeep(chip8);
     return fn.call(null, newChip8, ...args);
   };
 }
@@ -65,7 +68,7 @@ function toJSON(chip8) {
 
 function fromJSON(chip8) {
   const loadedChip = JSON.parse(chip8);
-  loadedChip.v = Uint8Array.from(_.values(loadedChip.v));
+  loadedChip.v = Uint8Array.from(values(loadedChip.v));
   return loadedChip;
 }
 
@@ -247,7 +250,7 @@ function addIVx(chip8, x) {
 }
 
 function ldIndirectIVx(chip8, x) {
-  _.range(x + 1).forEach(v => (chip8.memory[chip8.i + v] = chip8.v[v]));
+  range(x + 1).forEach(v => (chip8.memory[chip8.i + v] = chip8.v[v]));
   return chip8;
 }
 
@@ -261,7 +264,7 @@ function ldB(chip8, x) {
 }
 
 function ldVxIndirectI(chip8, x) {
-  _.range(x + 1).forEach(v => (chip8.v[v] = chip8.memory[chip8.i + v]));
+  range(x + 1).forEach(v => (chip8.v[v] = chip8.memory[chip8.i + v]));
   return chip8;
 }
 
