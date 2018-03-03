@@ -120,8 +120,9 @@ function updateUI(chip) {
 
   const currentPc = chip.pc;
   const lastPcDiff = currentPc - lastPc;
-  if (lastPcDiff >= 14 || lastPcDiff < 0) lastPc = currentPc;
-
+  if (lastPcDiff > 18 * 2 || lastPcDiff < 0) {
+    lastPc = currentPc;
+  }
   let pc = Math.max(lastPc - 2, 0);
   for (let i = 0; i < 20; i++) {
     const el = document.createElement("div");
