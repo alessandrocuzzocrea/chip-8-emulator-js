@@ -6,8 +6,24 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 module.exports = env => {
-  let GHPAGES = false;
-  if (env) GHPAGES = env.GHPAGES || false;
+  const GHPAGES = env && env.GHPAGES;
+
+  const plugins = [
+    new webpack.DefinePlugin({
+      "process.env": {
+        GHPAGES: JSON.stringify(GHPAGES)
+      }
+    }),
+    new HtmlWebpackPlugin({ template: "index.html" }),
+    new CopyWebpackPlugin([{ from: __dirname + "/roms", to: "./roms" }]),
+    new CleanWebpackPlugin([__dirname + "/dist"]),
+    new ExtractTextPlugin("styles.css")
+  ];
+
+  if (GHPAGES) {
+    plugins.push(new UglifyJsPlugin({ sourceMap: false }));
+  }
+
   return {
     context: __dirname + "/src",
     entry: "./index.js",
@@ -33,18 +49,7 @@ module.exports = env => {
         }
       ]
     },
-    plugins: [
-      new webpack.DefinePlugin({
-        "process.env": {
-          GHPAGES: JSON.stringify(GHPAGES)
-        }
-      }),
-      new HtmlWebpackPlugin({ template: "index.html" }),
-      new CopyWebpackPlugin([{ from: __dirname + "/roms", to: "./roms" }]),
-      new CleanWebpackPlugin([__dirname + "/dist"]),
-      new ExtractTextPlugin("styles.css"),
-      new UglifyJsPlugin({ sourceMap: true })
-    ],
+    plugins: plugins,
     devtool: "source-map"
   };
 };
