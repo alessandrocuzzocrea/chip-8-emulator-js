@@ -1,4 +1,5 @@
 const chip8 = require("./chip8");
+const { decode2 } = require("./decode");
 
 let lastPc = 0;
 
@@ -83,7 +84,7 @@ function update(chip) {
   let pc = Math.max(lastPc - 2, 0);
   for (let i = 0; i < 20; i++) {
     const el = document.createElement("div");
-    el.innerHTML = `${formatHex(pc)}| ${chip8.decode2(chip, pc)}`;
+    el.innerHTML = `${formatHex(pc)}| ${decode2(chip, pc)}`;
 
     if (pc === currentPc) {
       el.classList.add("current-instruction");

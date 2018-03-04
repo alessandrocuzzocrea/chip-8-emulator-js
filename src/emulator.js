@@ -2,6 +2,7 @@ const chip8 = require("./chip8");
 const renderer = require("./renderer");
 const keyboard = require("./keyboard");
 const ui = require("./ui");
+const cycle2 = require("./cycle");
 
 let chip;
 let rom;
@@ -90,7 +91,7 @@ function loadRom(name) {
 
 function cycle() {
   ui.update(chip);
-  chip = chip8.cycle(chip, keyboard);
+  chip = cycle2(chip, keyboard);
   renderer.render(chip, canvas);
   chip.delayTimer = Math.max(0, chip.delayTimer - 1);
   if (running) reqId = window.requestAnimationFrame(cycle);
