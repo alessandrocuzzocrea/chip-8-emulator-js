@@ -1,7 +1,6 @@
 const chip8 = require("./chip8");
 const renderer = require("./renderer");
 const keyboard = require("./keyboard");
-const logger = require("./logger");
 const ui = require("./ui");
 
 let chip;
@@ -64,7 +63,6 @@ function reset(startRunning = true) {
   }
   ui.reset();
   keyboard.reset();
-  logger.reset();
   run();
   return chip8.loadCharset(chip8.reset(new chip8.Chip8()));
 }
@@ -92,7 +90,7 @@ function loadRom(name) {
 
 function cycle() {
   ui.update(chip);
-  chip = chip8.cycle(chip, keyboard, logger);
+  chip = chip8.cycle(chip, keyboard);
   renderer.render(chip, canvas);
   chip.delayTimer = Math.max(0, chip.delayTimer - 1);
   if (running) reqId = window.requestAnimationFrame(cycle);

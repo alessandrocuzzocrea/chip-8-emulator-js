@@ -273,7 +273,7 @@ function ldFVx(chip8, x) {
   return chip8;
 }
 
-function decode(chip, opcode, keyboard, logger) {
+function decode(chip, opcode, keyboard) {
   const a = (opcode >> 12) & 0xf;
   const b = (opcode >> 8) & 0xf;
   const c = (opcode >> 4) & 0xf;
@@ -287,12 +287,10 @@ function decode(chip, opcode, keyboard, logger) {
       {
         // 00E0 - CLS
         if (b === 0x0 && c === 0xe && d === 0x0) {
-          if (logger) logger.log(`00E0 - CLS`);
           return module.exports.cls(chip);
         }
         // 00EE - RET
         if (b === 0x0 && c === 0xe && d === 0xe) {
-          if (logger) logger.log(`00EE - RET`);
           return module.exports.ret(chip);
         }
       }
@@ -301,7 +299,6 @@ function decode(chip, opcode, keyboard, logger) {
       {
         // 1nnn - JP addr
         const nnn = (b << 8) + (c << 4) + d;
-        if (logger) logger.log(`1nnn - JP addr: nnn=${nnn.toString(16)}`);
         return module.exports.jp(chip, nnn);
       }
       break;
@@ -310,7 +307,6 @@ function decode(chip, opcode, keyboard, logger) {
       {
         // 2nnn - CALL addr
         const nnn = (b << 8) + (c << 4) + d;
-        if (logger) logger.log(`2nnn - CALL addr: nnn=${nnn.toString(16)}`);
         return module.exports.call(chip, nnn);
       }
       break;
@@ -320,12 +316,6 @@ function decode(chip, opcode, keyboard, logger) {
         // 3xkk - SE Vx, byte
         const vx = b;
         const byte = (c << 4) + d;
-        if (logger)
-          logger.log(
-            `3xkk - SE Vx, byte: Vx=${vx.toString(16)}, byte=${byte.toString(
-              16
-            )}`
-          );
         return module.exports.se(chip, vx, byte);
       }
       break;
@@ -335,12 +325,6 @@ function decode(chip, opcode, keyboard, logger) {
         // 4xkk - SNE Vx, byte
         const vx = b;
         const byte = (c << 4) + d;
-        if (logger)
-          logger.log(
-            `4xkk - SNE Vx, byte: Vx=${vx.toString(16)}, byte=${byte.toString(
-              16
-            )}`
-          );
         return module.exports.sne(chip, vx, byte);
       }
       break;
@@ -350,12 +334,6 @@ function decode(chip, opcode, keyboard, logger) {
         // 6xkk - LD Vx, byte
         const vx = b;
         const byte = (c << 4) + d;
-        if (logger)
-          logger.log(
-            `6xkk - LD Vx, byte: Vx=${vx.toString(16)}, byte=${byte.toString(
-              16
-            )}`
-          );
         return module.exports.ld(chip, vx, byte);
       }
       break;
@@ -365,12 +343,6 @@ function decode(chip, opcode, keyboard, logger) {
         // "7xkk - ADD Vx, byte"
         const vx = b;
         const byte = (c << 4) + d;
-        if (logger)
-          logger.log(
-            `7xkk - ADD Vx, byte, byte: Vx=${vx.toString(
-              16
-            )}, byte=${byte.toString(16)}`
-          );
         return module.exports.add(chip, vx, byte);
       }
       break;
@@ -380,20 +352,12 @@ function decode(chip, opcode, keyboard, logger) {
       if (d === 0x0) {
         const vx = b;
         const vy = c;
-        if (logger)
-          logger.log(
-            `8xy0 - LD Vx, Vy: Vx=${vx.toString(16)}, Vy=${vy.toString(16)}`
-          );
         return module.exports.ldXY(chip, vx, vy);
       }
       // "8xy2 - AND Vx, Vy"
       if (d === 0x2) {
         const vx = b;
         const vy = c;
-        if (logger)
-          logger.log(
-            `8xy2 - AND Vx, Vy: Vx=${vx.toString(16)}, Vy=${vy.toString(16)}`
-          );
         return module.exports.andXY(chip, vx, vy);
       }
       break;
@@ -403,10 +367,6 @@ function decode(chip, opcode, keyboard, logger) {
       if (d === 0x0) {
         const vx = b;
         const vy = c;
-        if (logger)
-          logger.log(
-            `9xy0 - SNE Vx, Vy: Vx=${vx.toString(16)}, Vy=${vy.toString(16)}`
-          );
         return module.exports.sneXY(chip, vx, vy);
       }
       break;
@@ -415,15 +375,12 @@ function decode(chip, opcode, keyboard, logger) {
       {
         // "Annn - LD I, addr"
         const nnn = (b << 8) + (c << 4) + d;
-        if (logger) logger.log(`Annn - LD I, addr: nnn=${nnn.toString(16)}`);
         return module.exports.ldI(chip, nnn);
       }
       break;
 
     case 0xd:
       // "Dxyn - DRW Vx, Vy, nibble"
-      if (logger)
-        logger.log(`Dxyn - DRW Vx, Vy, nibble: Vx=${b}, Vy=${c}, nibble=${d}`);
       return module.exports.drw(chip, b, c, d);
       break;
 
@@ -432,13 +389,6 @@ function decode(chip, opcode, keyboard, logger) {
         // Cxkk - RND Vx, byte
         const x = b;
         const byte = (c << 4) + d;
-        if (logger)
-          logger.log(
-            `Cxkk - RND Vx, byte, byte: Vx=${x.toString(
-              16
-            )}, byte=${byte.toString(16)}`
-          );
-
         return module.exports.rnd(chip, x, byte);
       }
       break;
@@ -446,13 +396,11 @@ function decode(chip, opcode, keyboard, logger) {
       // Ex9E - SKP Vx
       if (c === 0x9 && d === 0xe) {
         const x = b;
-        if (logger) logger.log(`Ex9E - SKP Vx, Vx=${x.toString(16)}`);
         return module.exports.skp(chip, x, keyboard.getKeys());
       }
       // ExA1 - SKNP Vx
       if (c === 0xa && d === 0x1) {
         const x = b;
-        if (logger) logger.log(`ExA1 - SKNP Vx, Vx=${x.toString(16)}`);
         return module.exports.sknp(chip, x, keyboard.getKeys());
       }
       break;
@@ -460,44 +408,37 @@ function decode(chip, opcode, keyboard, logger) {
       // Fx07 - LD Vx, DT
       if (c === 0x0 && d === 0x7) {
         const x = b;
-        if (logger) logger.log(`Fx07 - LD Vx, DT, Vx=${x.toString(16)}`);
         return module.exports.ldVxDT(chip, x);
       }
 
       // Fx15 - LD DT, Vx
       if (c === 0x1 && d === 0x5) {
         const x = b;
-        if (logger) logger.log(`Fx15 - LD DT, Vx, Vx=${x.toString(16)}`);
         return module.exports.ldDTVx(chip, x);
       }
       // Fx1E - ADD I, Vx
       if (c === 0x1 && d === 0xe) {
         const x = b;
-        if (logger) logger.log(`Fx1E - ADD I, Vx=${x.toString(16)}`);
         return module.exports.addIVx(chip, x);
       }
       // Fx29
       if (c === 0x2 && d === 0x9) {
         const x = b;
-        if (logger) logger.log(`Fx29, Vx=${x.toString(16)}`);
         return module.exports.ldFVx(chip, x);
       }
       // Fx33
       if (c === 0x3 && d === 0x3) {
         const x = b;
-        if (logger) logger.log(`Fx33, Vx=${x.toString(16)}`);
         return module.exports.ldB(chip, x);
       }
       // Fx55
       if (c === 0x5 && d === 0x5) {
         const x = b;
-        if (logger) logger.log(`Fx55, Vx=${x.toString(16)}`);
         return module.exports.ldIndirectIVx(chip, x);
       }
       // Fx65
       if (c === 0x6 && d === 0x5) {
         const x = b;
-        if (logger) logger.log(`Fx65, Vx=${x.toString(16)}`);
         return module.exports.ldVxIndirectI(chip, x);
       }
       break;
@@ -688,7 +629,7 @@ function fetch(chip, pc) {
   return (chip.memory[pc] << 8) | chip.memory[pc + 1];
 }
 
-function cycle(chip, keyboard, logger) {
+function cycle(chip, keyboard) {
   const { pc, memory } = chip;
   const opcode = fetch(chip);
   const args = Array.from(arguments);
