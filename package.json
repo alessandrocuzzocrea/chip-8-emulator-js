@@ -10,7 +10,7 @@
     "test": "jest --watch",
     "test:debug":
       "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand",
-    "coverage": "jest --coverage --collectCoverageFrom='[\"./src/**/*.js\"]'",
+    "coverage": "jest --coverage",
     "coveralls":
       "./node_modules/coveralls/bin/coveralls.js < coverage/lcov.info"
   },
@@ -25,6 +25,11 @@
   },
   "homepage":
     "https://github.com/alessandrocuzzocrea/chip-8-emulator-js#readme",
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(scss|less)$": "<rootDir>/test/__mocks__/styleMock.js"
+    }
+  },
   "dependencies": {
     "clean-webpack-plugin": "^0.1.18",
     "copy-webpack-plugin": "^4.4.1",
