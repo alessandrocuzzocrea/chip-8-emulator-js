@@ -38,7 +38,10 @@ module.exports = env => {
           use: ExtractTextPlugin.extract({
             use: [
               {
-                loader: "css-loader"
+                loader: "css-loader",
+                options: {
+                  minimize: GHPAGES
+                }
               },
               {
                 loader: "sass-loader"
