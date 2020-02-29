@@ -147,7 +147,7 @@ function xorXY(chip8, x, y) {
 function addXY(chip8, x, y) {
   const sum = chip8.v[x] + chip8.v[y];
   chip8.v[0xf] = sum > 0xff ? 0x01 : 0x00;
-  chip8.v[x] = sum;
+  chip8.v[x] = sum; // TODO: no wraparound?
   return chip8;
 }
 
