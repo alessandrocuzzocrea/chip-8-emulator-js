@@ -396,6 +396,16 @@ function decode(chip, opcode, keyboard, logger) {
           );
         return module.exports.andXY(chip, vx, vy);
       }
+      // "8xy4 - Vx += Vy, set Vf to 1 if carry, 0 if not"
+      if (d === 0x4) {
+        const vx = b;
+        const vy = c;
+        if (logger)
+          logger.log(
+            `8xy4 - Vx += Vy: Vx=${vx.toString(16)}, Vy=${vy.toString(16)}`
+          );
+        return module.exports.addXY(chip, vx, vy);
+      }
       break;
 
     case 0x9:
