@@ -1,14 +1,12 @@
 language: node_js
-node_js: 
-  - node
 env:
   -CI=false
 cache: 
-  directories: 
+  directories:
     - node_modules
-install: 
+install:
   - npm install
-script: 
+script:
   - npm run build:ghpages
   - npm run coverage
 deploy:
